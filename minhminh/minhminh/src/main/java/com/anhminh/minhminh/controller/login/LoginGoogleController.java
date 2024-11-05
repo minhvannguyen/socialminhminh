@@ -3,7 +3,7 @@ import com.anhminh.minhminh.exception.ExpiredTokenException;
 import com.anhminh.minhminh.module.Users;
 import com.anhminh.minhminh.repository.UserRepository;
 import com.anhminh.minhminh.service.login.AuthResponse;
-import com.anhminh.minhminh.service.login.CreateToken;
+import com.anhminh.minhminh.service.token.CreateToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
@@ -19,14 +19,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/oauth2")
-public class GoogleAuthController {
+public class LoginGoogleController {
 
     private final UserRepository userRespository;
     private JwtDecoder jwtDecoder; // Giải mã JWT từ token Google
     private final CreateToken createToken;
 
     @Autowired
-    public GoogleAuthController(UserRepository userRespository, JwtDecoder jwtDecoder, CreateToken createToken) {
+    public LoginGoogleController(UserRepository userRespository, JwtDecoder jwtDecoder, CreateToken createToken) {
         this.userRespository = userRespository;
         this.jwtDecoder = jwtDecoder;
         this.createToken = createToken;
@@ -92,4 +92,3 @@ public class GoogleAuthController {
         return (String) jwt.getClaims().get("name");
     }
 }
-

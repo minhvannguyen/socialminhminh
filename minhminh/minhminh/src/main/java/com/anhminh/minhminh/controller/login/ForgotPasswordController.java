@@ -14,12 +14,11 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping()
 public class ForgotPasswordController {
     private final UserRepository userRepository;
     private final OtpService otpService;

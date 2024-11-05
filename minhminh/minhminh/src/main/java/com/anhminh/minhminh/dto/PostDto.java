@@ -1,16 +1,10 @@
-package com.anhminh.minhminh.module;
+package com.anhminh.minhminh.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
-@Entity
-public class Posts {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PostDto {
     private Long idPost;
     private Long idUser;
     private String content;
@@ -57,4 +51,3 @@ public class Posts {
         this.date = date;
     }
 }
-

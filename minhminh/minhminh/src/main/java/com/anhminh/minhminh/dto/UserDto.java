@@ -1,6 +1,7 @@
 package com.anhminh.minhminh.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.anhminh.minhminh.annotation.*;
 import jakarta.validation.constraints.Email;
@@ -28,7 +29,6 @@ public class UserDto {
     private Date date;
     private String avatar;
     private Boolean isSingle;
-
 
     public UserDto() {
         //đây là constructor ko tham số cho rõ ràng logic

@@ -9,7 +9,7 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
-    @GetMapping("/oauth2/callback/google")
+    @GetMapping("/user/google")
     public Map<String, Object> loginGoogle(@AuthenticationPrincipal OAuth2User oauth2User) {
         // Trả về thông tin người dùng từ Google
         return oauth2User.getAttributes();

@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import axios from 'axios';
+import config from './config';
 
-const clientId =process.env.CLIENT_ID;
+const clientId = config.CLIENT_ID;
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,10 +28,10 @@ export default function Login() {
             const response = await axios.post('http://localhost:8080/login', authRequest);
 
             if (response.status === 200) {
-              const accessToken = response.data.token;
-              localStorage.setItem('token', accessToken);
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('userId', response.data.userId);
               setMessage({success: 'Đăng nhập thành công!'});
-              navigate("/home")
+              navigate("/")
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -48,7 +49,7 @@ export default function Login() {
 
     try {
       // Gửi token đến backend để xác thực và nhận thông tin người dùng
-      const res = await axios.post('http://localhost:8080/oauth2/callback/google', {
+      const res = await axios.post('http://localhost:8080/user/google', {
         token: tokenId,
       });
 
@@ -87,9 +88,7 @@ export default function Login() {
               >
                 <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
               </svg>
-              <p className="ml-0 text-sm text-zinc-950 dark:text-white">
-                Back to the website
-              </p>
+              
             </div>
           </a>
           <div className="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[130px] lg:max-w-[450px]">

@@ -10,6 +10,7 @@ export default function Home() {
             <div className="w-full h-full lg:max-w-[450px] bg-transparent shadow-lg ">
                 <NavBar />
             </div>
+            <Link to = "/login">login</Link>
         </div>
     )
 }

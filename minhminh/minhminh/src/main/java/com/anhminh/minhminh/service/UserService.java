@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMap userMap;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository, UserMap userMap, PasswordEncoder passwordEncoder) {

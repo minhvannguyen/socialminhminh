@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PostNews = ({ isOpen, onClose, onFileSelect }) => {
-  if (!isOpen) return null; // Không hiển thị modal nếu không mở
+  if(!isOpen) return null; // Không hiển thị modal nếu không mở
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

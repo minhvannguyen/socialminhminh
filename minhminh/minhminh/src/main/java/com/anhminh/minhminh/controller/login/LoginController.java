@@ -3,7 +3,7 @@ package com.anhminh.minhminh.controller.login;
 
 import com.anhminh.minhminh.service.login.AuthRequest;
 import com.anhminh.minhminh.service.login.AuthResponse;
-import com.anhminh.minhminh.service.login.CreateToken;
+import com.anhminh.minhminh.service.token.CreateToken;
 import com.anhminh.minhminh.service.login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,8 @@ public class LoginController {
         // Xác thực user bằng cách kiểm tra username và password
         if (loginService.validateUser(authRequest.getGmail(), authRequest.getPassword())) {
             String token = createToken.generateToken(authRequest.getGmail());
-            return ResponseEntity.ok(new AuthResponse(token));
+            Long userId = loginService.userId(authRequest.getGmail());
+            return ResponseEntity.ok(new AuthResponse(token, userId));
         } else {
             return ResponseEntity.status(401).body("Tài khoản hoặc mật khẩu không đúng!");
         }
