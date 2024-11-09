@@ -21,10 +21,24 @@ public class Users {
     private String bio;
     private Date date;
     private String avatar;
-    private Boolean isSingle;
+    private String isSingle;
+    private int flowerNumbers;
+    private int flowedNumbers;
 
-    public Users() {
-        //đây là construtor rỗng
+    public int getFlowerNumbers() {
+        return flowerNumbers;
+    }
+
+    public void setFlowerNumbers(int flowerNumbers) {
+        this.flowerNumbers = flowerNumbers;
+    }
+
+    public int getFlowedNumbers() {
+        return flowedNumbers;
+    }
+
+    public void setFlowedNumbers(int flowedNumbers) {
+        this.flowedNumbers = flowedNumbers;
     }
 
     public String getFirstName() {
@@ -99,11 +113,11 @@ public class Users {
         this.avatar = avatar;
     }
 
-    public Boolean getSingle() {
+    public String getIsSingle() {
         return isSingle;
     }
 
-    public void setSingle(Boolean single) {
-        isSingle = single;
+    public void setIsSingle(String isSingle) {
+        this.isSingle = isSingle;
     }
 }

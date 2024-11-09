@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 
-export default function ChangePassword() {
+export default function ChangePassword({Back}) {
+  const location = useLocation();
+  const backUrl = location.state?.back || "/defaultBackUrl";
 
   const [checkPassword, setCheckPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -57,6 +60,10 @@ export default function ChangePassword() {
   <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     
     <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
+      <Link to={backUrl}>
+    <FaArrowLeft
+  className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" 
+/></Link>
       <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
         Đổi mật khẩu
       </h2>

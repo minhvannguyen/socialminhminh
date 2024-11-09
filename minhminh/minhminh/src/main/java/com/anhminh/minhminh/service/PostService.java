@@ -27,14 +27,18 @@ public class PostService {
         Posts posts = postMap.toEntity(postDto);
         postRepository.save(posts);
     }
-    public List<PostDto> allPost() {
+    public List<PostDto> allPost(Long idUser) {
         List<PostDto> postDtoList = new ArrayList<>();
-        for (Posts posts : postRepository.findAll()) {
+        List<Posts> postsList = postRepository.findByIdUser(idUser); // Tìm tất cả bài đăng theo userId
+
+        for (Posts posts : postsList) {
             PostDto postDto = postMap.toDto(posts);
             postDtoList.add(postDto);
         }
+
         return postDtoList;
     }
+
     public void deletePost(Long id) {
         Optional<Posts> posts = postRepository.findById(id);
         if(posts.isPresent()) {

@@ -58,6 +58,8 @@ public class UserService {
         Optional<Users> user = userRepository.findById(id);
         if(user.isPresent()) {
             userDto.setId(id);
+            userDto.setGmail(user.get().getGmail());
+            userDto.setPassword(user.get().getPassword());
             Users users = userMap.toEntity(userDto);
             userRepository.save(users);
         }

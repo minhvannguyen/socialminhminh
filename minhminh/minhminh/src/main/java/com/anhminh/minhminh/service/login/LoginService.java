@@ -24,8 +24,7 @@ public class LoginService {
         return user != null && passwordEncoder.matches(password, user.getPassword());
     }
 
-    public Long userId(String gmail) {
-        Users user = userRepository.findByGmail(gmail);
-        return user.getId();
+    public Users user(String gmail) {
+        return userRepository.findByGmail(gmail);
     }
 }

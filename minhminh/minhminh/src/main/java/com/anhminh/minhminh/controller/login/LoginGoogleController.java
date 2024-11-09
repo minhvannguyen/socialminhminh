@@ -1,8 +1,11 @@
 package com.anhminh.minhminh.controller.login;
+import com.anhminh.minhminh.dto.UserDto;
 import com.anhminh.minhminh.exception.ExpiredTokenException;
+import com.anhminh.minhminh.mapper.UserMap;
 import com.anhminh.minhminh.module.Users;
 import com.anhminh.minhminh.repository.UserRepository;
 import com.anhminh.minhminh.service.login.AuthResponse;
+import com.anhminh.minhminh.service.login.LoginService;
 import com.anhminh.minhminh.service.token.CreateToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -24,12 +27,15 @@ public class LoginGoogleController {
     private final UserRepository userRespository;
     private JwtDecoder jwtDecoder; // Giải mã JWT từ token Google
     private final CreateToken createToken;
-
+    private final LoginService loginService;
+    private final UserMap userMap;
     @Autowired
-    public LoginGoogleController(UserRepository userRespository, JwtDecoder jwtDecoder, CreateToken createToken) {
+    public LoginGoogleController(UserRepository userRespository, CreateToken createToken, LoginService loginService, JwtDecoder jwtDecoder, UserMap userMap) {
         this.userRespository = userRespository;
-        this.jwtDecoder = jwtDecoder;
         this.createToken = createToken;
+        this.loginService = loginService;
+        this.jwtDecoder = jwtDecoder;
+        this.userMap = userMap;
     }
 
 
@@ -47,9 +53,10 @@ public class LoginGoogleController {
             String tokenServer = createToken.generateToken(email);
             Optional<Users> existingUser = Optional.ofNullable(userRespository.findByGmail(email));
             if (existingUser.isPresent()) {
-
                 // Đăng nhập người dùng đã tồn tại
-                return ResponseEntity.ok(tokenServer);
+                Users user = loginService.user(authResponse.getEmail());
+                UserDto userDto = userMap.toDto(user);
+                return ResponseEntity.ok(new AuthResponse(tokenServer, userDto));
             } else {
                 // Tạo tài khoản mới cho người dùng
                 Users newUser = new Users();
@@ -57,8 +64,9 @@ public class LoginGoogleController {
                 newUser.setUserName(name);
                 // Thiết lập các thông tin bổ sung nếu cần
                 userRespository.save(newUser);
-
-                return ResponseEntity.status(HttpStatus.CREATED).body(tokenServer);
+                Users user = loginService.user(authResponse.getEmail());
+                UserDto userDto = userMap.toDto(user);
+                return ResponseEntity.ok(new AuthResponse(tokenServer, userDto));
             }
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Invalid token");

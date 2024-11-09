@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { FaHome, FaCommentDots, FaBell, FaUser, FaPlus, FaSearch } from 'react-icons/fa';
 import PostNews from './post/PostNews';
 import PostNews1 from './post/PostNews1';
+import { Link } from 'react-router-dom';
+import Notification from './Notification';
+import Messeger from './Messeger';
+import Search from './Search';
 
 const NavBar = () => {
-
+//logic tạo bài đăng mới
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState('');
 
@@ -23,21 +27,55 @@ const NavBar = () => {
   let imageUrl = '';
   selectedFile && ( imageUrl = URL.createObjectURL(selectedFile));
   
-
-  const handleFileSelect = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
+ 
+  const handleFileSelect = (e) => {
+  ;
+    
+      setSelectedFile(e.target.files[0]);
       // Có thể xử lý file tại đây, ví dụ: upload hoặc preview
-    }
+    
+  };
+  //kết thúc logic tạo bài đăng
+
+  //logic thông báo
+  const [isOpenNotication, setIsOpenNotication] = useState(false);
+  const openNotication = () => {
+    setIsOpenNotication(true);
+  };
+  const closeNotication = () => {
+    setIsOpenNotication(false);
+  };
+  //kết thúc logic thông báo
+
+  //logic tin nhắn
+  const [isOpenMess, setIsOpenMess] = useState(false);
+  const openMess = () => {
+    setIsOpenMess(true);
+  };
+  const closeMess = () => {
+    setIsOpenMess(false);
+  };
+  //kết thúc logic tin nhắn
+
+  //logic tin nhắn
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
+  const openSearch = () => {
+    setIsOpenSearch(!isOpenSearch);
   };
   
+  //kết thúc logic tin nhắn
+  
   return (
-    <div className="w-full h-12 bg-transparent top-0 z-10">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="text-xl font-bold text-blue-400 flex">
+    <div className="w-full h-14 bg-transparent top-0 z-10 ">
+      <div className="max-w-4xl bg-white mx-auto px-4 h-12 flex items-center justify-between fixed z-[8888]">
+        <div className="text-xl font-bold text-blue-400 flex mr-40">
           minhminh
-          <FaSearch className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
+          <FaSearch className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" onClick={openSearch}/>
+          <Search 
+            isOpen={isOpenSearch}
+            Open={openSearch}
+            Close={openSearch}
+          />
         </div>
 
         {/* Icon điều hướng */}
@@ -45,18 +83,34 @@ const NavBar = () => {
           <FaPlus className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" onClick={openModal} />
           <PostNews
             isOpen={isModalOpen}
-            onClose={closeModal}
+            Close={closeModal}
             onFileSelect={handleFileSelect}
           />
           <PostNews1 
-            isOpen={selectedFile} 
+            imgfile={selectedFile} 
             close={onclose}
             fileUrl={imageUrl}
           />
-          <FaHome className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
-          <FaCommentDots className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
-          <FaBell className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
-          <FaUser className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
+          <Link to="/">
+              <FaHome className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
+          </Link>
+          
+          <FaCommentDots className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" onClick={openMess}  />
+          <Messeger
+            isOpen={isOpenMess}
+            Open={openMess}
+            Close={closeMess}
+          />
+
+          <FaBell className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" onClick={openNotication} />
+          <Notification 
+             isOpen={isOpenNotication}
+             Open={openNotication}
+             Close={closeNotication}
+          />
+          <Link to="/profile">
+              <FaUser className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
+          </Link>
         </div>
       </div>
     </div>

@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-export default function PostNews1({ close, fileUrl }) {
+export default function PostNews1({imgfile, close, fileUrl }) {
 
   const token = localStorage.getItem("token");
 
   const [message, setMessage] = useState({});
   const date = new Date();
+  const [file, setFile] = useState({});
   const [postData, setPostData] = useState({
     idUser: localStorage.getItem("userId"),
     content: '',
-    imageUrl: '',
     date: date.toLocaleDateString(),
   });
+
+  const formData = new FormData();  // Tạo một đối tượng FormData
+    formData.append('imgfile', imgfile);
+    formData.append("postDto", JSON.stringify(postData));
+
   useEffect(() => {
     if (fileUrl) {
       // Cập nhật imageUrl trong postData nếu imageUrl có giá trị
@@ -38,12 +43,13 @@ export default function PostNews1({ close, fileUrl }) {
     e.preventDefault();
     setMessage({});
     try {
-      const response = axios.post("http://localhost:8080/posts/up", postData, {
+      const response =await axios.post("http://localhost:8080/posts/up", formData, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',  // Đảm bảo header là multipart
         }
       });
-      setMessage({success: (await response).data})
+      setMessage({success:  response.data})
     }
     catch (error) {
       if (error.response && error.response.data) {
@@ -136,6 +142,8 @@ export default function PostNews1({ close, fileUrl }) {
         </div>
         {/* buttons */}
         <div className="buttons flex">
+          {message.errors && <p className='mt-2 text-red-600'>{message.errors}</p>}
+          {message.success && <p className='mt-2 text-green-600'>{message.success}</p>}
           <button className="btn bg-red-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-auto" type='button' onClick={handleCancleBtn}>
             Cancel
           </button>
@@ -145,8 +153,7 @@ export default function PostNews1({ close, fileUrl }) {
         </div>
       </div>
       </form>
-      {message.errors && <p className='text-red-600'>{message.errors}</p>}
-      {message.success && <p className='text-green-700'>{message.success}</p>}
+      
     </div>
     
 

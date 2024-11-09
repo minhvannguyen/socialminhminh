@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PostNews = ({ isOpen, onClose, onFileSelect }) => {
+const PostNews = ({ isOpen, Close, onFileSelect }) => {
   if(!isOpen) return null; // Không hiển thị modal nếu không mở
 
   return (
@@ -14,7 +14,7 @@ const PostNews = ({ isOpen, onClose, onFileSelect }) => {
           className="border rounded p-2 mb-4"
         />
         <div className="flex justify-center">
-          <button onClick={onClose} className="bg-blue-500 text-white px-4 py-2 rounded">
+          <button onClick={Close} className="bg-blue-500 text-white px-4 py-2 rounded">
             Hủy
           </button>
         </div>

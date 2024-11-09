@@ -1,26 +1,28 @@
 package com.anhminh.minhminh.service.login;
 
+import com.anhminh.minhminh.dto.UserDto;
+
 public class AuthResponse {
     private final String token;
     private String email;
-    private Long userId;
+    private UserDto userDto;
 
     public AuthResponse(String token, String email) {
         this.token = token;
         this.email = email;
     }
 
-    public AuthResponse(String token, Long userId) {
+    public AuthResponse(String token, UserDto userDto) {
         this.token = token;
-        this.userId = userId;
+        this.userDto = userDto;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
     public String getToken() {

@@ -16,7 +16,24 @@ public class Posts {
     private String content;
     private String imageUrl;
     private String date;
+    private int likeNumbers;
+    private int commentNumbers;
 
+    public int getCommentNumbers() {
+        return commentNumbers;
+    }
+
+    public void setCommentNumbers(int commentNumbers) {
+        this.commentNumbers = commentNumbers;
+    }
+
+    public int getLikeNumbers() {
+        return likeNumbers;
+    }
+
+    public void setLikeNumbers(int likeNumbers) {
+        this.likeNumbers = likeNumbers;
+    }
     public Long getIdPost() {
         return idPost;
     }

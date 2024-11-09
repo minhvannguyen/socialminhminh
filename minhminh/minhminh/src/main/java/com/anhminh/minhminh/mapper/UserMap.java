@@ -16,20 +16,24 @@ public class UserMap {
         users.setGmail(userDto.getGmail());
         users.setDate(userDto.getDate());
         users.setId(userDto.getId());
-        users.setSingle(userDto.getSingle());
+        users.setIsSingle(userDto.getIsSingle());
+        users.setFlowedNumbers(userDto.getFlowedNumbers());
+        users.setFlowerNumbers(userDto.getFlowerNumbers());
         return users;
     }
+
     public UserDto toDto(Users users) {
         UserDto userDto = new UserDto();
         userDto.setAddress(users.getAddress());
         userDto.setAvatar(users.getAvatar());
         userDto.setBio(users.getBio());
         userDto.setUserName(users.getUserName());
-        userDto.setPassword(users.getPassword());
         userDto.setGmail(users.getGmail());
         userDto.setDate(users.getDate());
         userDto.setId(users.getId());
-        userDto.setSingle(users.getSingle());
+        userDto.setIsSingle(users.getIsSingle());
+        userDto.setFlowerNumbers(users.getFlowerNumbers());
+        userDto.setFlowedNumbers(users.getFlowedNumbers());
         return userDto;
     }
 }

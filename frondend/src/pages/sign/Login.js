@@ -12,58 +12,70 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setAuthRequest((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-        
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAuthRequest((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+  };
 
-        try {
-            const response = await axios.post('http://localhost:8080/login', authRequest);
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-            if (response.status === 200) {
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('userId', response.data.userId);
-              setMessage({success: 'Đăng nhập thành công!'});
-              navigate("/")
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                setMessage({errors: error.response.data}); // Hiển thị thông báo lỗi từ backend
-            } else {
-                setMessage({errors: 'Đã xảy ra lỗi, vui lòng thử lại!'});
-            }
-        }
-    };
+    try {
+      const response = await axios.post('http://localhost:8080/login', authRequest);
 
-    const handleGoogleSuccess = async (response1) => {
-      response1.preventDefault();
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userName', response.data.userDto.userName);
+        localStorage.setItem('avatar', response.data.userDto.avatar);
+        localStorage.setItem('id', response.data.userDto.id);
+        localStorage.setItem('address', response.data.userDto.address);
+        localStorage.setItem('bio', response.data.userDto.bio);
+        localStorage.setItem('isSingle', response.data.userDto.isSingle);
 
-      const { tokenId } = response1; // Nhận token từ Google
+        setMessage({ success: 'Đăng nhập thành công!' });
+        navigate("/")
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setMessage({ errors: error.response.data }); // Hiển thị thông báo lỗi từ backend
+      } else {
+        setMessage({ errors: 'Đã xảy ra lỗi, vui lòng thử lại!' });
+      }
+    }
+  };
+
+  const handleGoogleSuccess = async (response1) => {
+    response1.preventDefault();
+
+    const { tokenId } = response1; // Nhận token từ Google
 
     try {
       // Gửi token đến backend để xác thực và nhận thông tin người dùng
-      const res = await axios.post('http://localhost:8080/user/google', {
+      const res = await axios.post('http://localhost:8080/oauth2/callback/google', {
         token: tokenId,
       });
 
       // Lưu trữ thông tin người dùng hoặc token trong localStorage/sessionStorage
-      localStorage.setItem('token', JSON.stringify(res.data)); 
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userName', res.data.userDto.userName);
+      localStorage.setItem('avatar', res.data.userDto.avatar);
+      localStorage.setItem('id', res.data.userDto.id);
+      localStorage.setItem('address', res.data.userDto.address);
+      localStorage.setItem('bio', res.data.userDto.bio);
+      localStorage.setItem('isSingle', res.data.userDto.isSingle);
     } catch (error) {
       console.error('Error during login:', error);
     }
   };
 
-    const handleGoogleLogin = () => {
-      // Mở cửa sổ đăng nhập Google
-      window.open(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/&response_type=code&scope=profile email&access_type=offline`, "_self");
-    };
+  const handleGoogleLogin = () => {
+    // Mở cửa sổ đăng nhập Google
+    window.open(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/&response_type=code&scope=profile email&access_type=offline`, "_self");
+  };
 
   return (
     <>
@@ -88,7 +100,7 @@ export default function Login() {
               >
                 <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
               </svg>
-              
+
             </div>
           </a>
           <div className="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[130px] lg:max-w-[450px]">
@@ -173,7 +185,7 @@ c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.
                       autoCorrect="off"
                       name="gmail"
                       onChange={handleChange}
-                      
+
                     />
                     <label
                       className="text-zinc-950 mt-2 dark:text-white"
@@ -196,7 +208,7 @@ c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.
                         id="show-password"
                         type="checkbox"
                         className="mr-2"
-                        onChange={()=>setShowPassword(!showPassword)}
+                        onChange={() => setShowPassword(!showPassword)}
                       />
                       <label htmlFor="show-password" className="text-sm">Hiển thị mật khẩu</label>
                     </div>
@@ -221,11 +233,11 @@ c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.
                 </Link>
               </p>
               <div className='flex'>
-               <div className='text-gray-500 mr-3'>Bạn chưa có tài khoản?</div>
-               <Link className='text-blue-700 decoration-2 hover:underline' to="/register">Đăng ký thôi!</Link>
-            </div>
-              
-              
+                <div className='text-gray-500 mr-3'>Bạn chưa có tài khoản?</div>
+                <Link className='text-blue-700 decoration-2 hover:underline' to="/register">Đăng ký thôi!</Link>
+              </div>
+
+
             </div>
           </div>
         </div>

@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import ForgotPassword from './pages/sign/ForgotPassword';
 import ConfirmOtp from './pages/sign/ConfirmOtp';
 import ChangePassword from './pages/sign/ChangePassword';
+import ProfilePage from './pages/profile/ProfilePage';
+import UpdateProfile from './pages/profile/UpdateProfile';
+import Follower from './pages/profile/Follower';
 
 function App() {
   return (
@@ -16,6 +19,8 @@ function App() {
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/confirmOtp" element={<ConfirmOtp />} />
         <Route path="/changePassword" element={<ChangePassword />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/updateProfile" element={<UpdateProfile />} />
       </Routes>
     </BrowserRouter>
   );

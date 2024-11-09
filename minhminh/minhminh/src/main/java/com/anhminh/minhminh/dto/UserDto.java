@@ -1,7 +1,6 @@
 package com.anhminh.minhminh.dto;
 
 import java.util.Date;
-import java.util.Set;
 
 import com.anhminh.minhminh.annotation.*;
 import jakarta.validation.constraints.Email;
@@ -16,19 +15,37 @@ public class UserDto {
     private String userName;
     private String firstName;
 
-    @NotBlank(message = "Email không được để trống!", groups = {OnRegister.class, OnUpdate.class, OnLogin.class})
-    @Email(message = "Email không đúng định dạng!", groups = {OnRegister.class, OnUpdate.class, OnLogin.class})
-    @IsEmailExists(message = "email đã tồn tại!", groups = {OnRegister.class, OnUpdate.class})
+    @NotBlank(message = "Email không được để trống!", groups = {OnRegister.class, OnLogin.class})
+    @Email(message = "Email không đúng định dạng!", groups = {OnRegister.class, OnLogin.class})
+    @IsEmailExists(message = "email đã tồn tại!", groups = {OnRegister.class})
     private String gmail;
 
-    @NotBlank(message = "Password không được để trống!", groups = {OnRegister.class, OnUpdate.class, OnLogin.class})
-    @Size(min = 6, message = "Password phải có ít nhất 6 ký tự!", groups = {OnRegister.class, OnUpdate.class, OnLogin.class})
+    @NotBlank(message = "Password không được để trống!", groups = {OnRegister.class, OnLogin.class})
+    @Size(min = 6, message = "Password phải có ít nhất 6 ký tự!", groups = {OnRegister.class, OnLogin.class})
     private String password;
     private String address;
     private String bio;
     private Date date;
     private String avatar;
-    private Boolean isSingle;
+    private String isSingle;
+    private int flowerNumbers;
+    private int flowedNumbers;
+
+    public int getFlowerNumbers() {
+        return flowerNumbers;
+    }
+
+    public void setFlowerNumbers(int flowerNumbers) {
+        this.flowerNumbers = flowerNumbers;
+    }
+
+    public int getFlowedNumbers() {
+        return flowedNumbers;
+    }
+
+    public void setFlowedNumbers(int flowedNumbers) {
+        this.flowedNumbers = flowedNumbers;
+    }
 
     public UserDto() {
         //đây là constructor ko tham số cho rõ ràng logic
@@ -111,11 +128,11 @@ public class UserDto {
         this.avatar = avatar;
     }
 
-    public Boolean getSingle() {
+    public String getIsSingle() {
         return isSingle;
     }
 
-    public void setSingle(Boolean single) {
-        isSingle = single;
+    public void setIsSingle(String isSingle) {
+        this.isSingle = isSingle;
     }
 }
