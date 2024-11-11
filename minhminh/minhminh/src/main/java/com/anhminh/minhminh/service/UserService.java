@@ -35,10 +35,16 @@ public class UserService {
         users.setPassword(encodedPassword);
         userRepository.save(users);
     }
-    public UserDto findUser(Long id) {
+    public UserDto findByIdUser(Long id) {
         Optional<Users> user = userRepository.findById(id);
         return user.map(userMap::toDto).orElseThrow(() -> new ResourceNotFoundException("id này ko tồn tại!"));
     }
+
+    public UserDto findByUserName(String userName) {
+        Optional<Users> user = userRepository.findByUserName(userName);
+        return user.map(userMap::toDto).orElseThrow(() -> new ResourceNotFoundException("ten này ko tồn tại!"));
+    }
+
     public List<UserDto> allUser() {
         List<UserDto> userDtoList = new ArrayList<>();
         for (Users user : userRepository.findAll()) {
@@ -65,5 +71,6 @@ public class UserService {
         }
         else throw new ResourceNotFoundException("id không tồn tại!");
     }
+
 
 }

@@ -4,20 +4,12 @@ import Follower from './Follower';
 import Followed from './Followed';
 import UserPhotos from './UserPhotos';
 import NavBar from '../NavBar';
+import MessegerChat from '../MessegerChat';
 
-export default function ProfilePage() {
-
-  const idUser = localStorage.getItem("id");
+export default function ProfileSclient() {
 
   const location = useLocation();
-  //logic cài đặt nhấn thả xuống
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  };
-  // kết thúc logic cài đặt nhấn thả xuống
-
+    const userClient = location.state;
   //logic follower
   const [isOpenFollower, setIsOpenFollower] = useState(false);
   const openFollower = () => {
@@ -40,8 +32,8 @@ export default function ProfilePage() {
   };
   //kết thúc logic followed
   // Lấy thông tin từ localStorage hoặc đặt giá trị mặc định
-  const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || "defaultAvatar.png");
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "Guest");
+  const [avatar, setAvatar] = useState(userClient.avatar || "defaultAvatar.png");
+  const [userName, setUserName] = useState(userClient.userName || "Guest");
   // Cập nhật localStorage khi avatar hoặc userName thay đổi
   useEffect(() => {
     if (avatar) localStorage.setItem("avatar", avatar);
@@ -52,8 +44,23 @@ export default function ProfilePage() {
         setNumberPost(data);
     };
 
+    //logic chat
+  const [isOpenChat, setIsOpenChat] = useState(false);
+  const openChat = () => {
+    setIsOpenChat(true);
+  };
+  const closeChat = () => {
+    setIsOpenChat(false);
+  };
+  //kết thúc logic chat
+
   return (
     <div className="flex justify-center  items-center h-screen ">
+      <MessegerChat 
+           isOpenChat={isOpenChat}
+           OpenChat={openChat}
+           CloseChat={closeChat}
+        />
       <div className="w-full h-full lg:max-w-[500px] bg-transparent shadow-lg relative">
         <NavBar />
         <div className="max-w-2xl mx-auto">
@@ -66,10 +73,10 @@ export default function ProfilePage() {
               />
               <p className="font-serif font-semibold">{userName}</p>
               <span className="text-sm text-gray-400">
-                {localStorage.getItem("bio")}
+                {userClient.bio}
               </span>
               <span className="text-sm text-gray-400">
-                {localStorage.getItem("address")}
+                {userClient.address}
               </span>
             </div>
             <div className="flex justify-center items-center gap-2 my-3">
@@ -99,79 +106,18 @@ export default function ProfilePage() {
             </div>
             <div className="flex justify-center gap-2 my-5">
               <Link to="/updateProfile" className=" bg-red-400 hover:bg-pink-600 cursor-pointer px-5 py-1 rounded-full text-white shadow-lg">
-                Followed
+                Theo dõi
               </Link>
 
               <button
                 id="dropdownDefaultButton"
-                data-dropdown-toggle="dropdown"
                 className=" bg-blue-400 hover:bg-blue-600 cursor-pointer px-5 py-1 rounded-full text-white shadow-lg text-sm text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 "
                 type="button"
-                onClick={toggleDropdown}
+                onClick={openChat}
               >
                 Nhắn tin
-                <svg
-                  className="w-2.5 h-2.5 ms-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
+                
               </button>
-              {/* Dropdown menu */}
-              <div
-                id="dropdown"
-                className={`z-10 ${isOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-900 absolute ml-56 mt-10`}
-              >
-                <ul
-                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownDefaultButton"
-                >
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Quyền riêng tư
-                    </a>
-                  </li>
-                  <li>
-                    <Link
-                      to="/changePassword"
-                      state={{ back: location.pathname }}
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Đổi mật khẩu
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Trợ giúp
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-
             </div>
             <div className="flex justify-between items-center">
               <button className="w-full py-2 border-b-2 border-yellow-400">
@@ -208,7 +154,7 @@ export default function ProfilePage() {
               </button>
             </div>
             <div className="">
-              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={idUser} numberPost={getNumberPost}/>
+              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={userClient.id} numberPost={getNumberPost}/>
             </div>
           </div>
 

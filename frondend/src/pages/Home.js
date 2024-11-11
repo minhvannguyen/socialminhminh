@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import NavBar from './NavBar';
 import Posts from './post/Posts';
+import NavBar from './NavBar';
 
 export default function Home() {
     
@@ -13,6 +13,8 @@ export default function Home() {
                 <Posts />
                 
                 <Link to="/login">login</Link>
+                <di>---</di>
+                <Link to="/profileClient">profileClient</Link>
             </div>
             
         </div>

@@ -57,13 +57,13 @@ const NavBar = () => {
   };
   //kết thúc logic tin nhắn
 
-  //logic tin nhắn
+  //logic search
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const openSearch = () => {
     setIsOpenSearch(!isOpenSearch);
   };
   
-  //kết thúc logic tin nhắn
+  //kết thúc logic search
   
   return (
     <div className="w-full h-14 bg-transparent top-0 z-10 ">

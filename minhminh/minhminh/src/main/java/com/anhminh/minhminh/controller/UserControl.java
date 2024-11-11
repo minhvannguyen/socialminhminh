@@ -3,7 +3,6 @@ package com.anhminh.minhminh.controller;
 import com.anhminh.minhminh.annotation.OnRegister;
 import com.anhminh.minhminh.dto.UserDto;
 import com.anhminh.minhminh.service.UserService;
-import com.anhminh.minhminh.service.login.AuthResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,9 +40,14 @@ public class UserControl {
         return ResponseEntity.ok(userService.allUser());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/findUser/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findUser(id));
+        return ResponseEntity.ok(userService.findByIdUser(id));
+    }
+
+    @GetMapping("/findByUserName/{userName}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String userName) {
+        return ResponseEntity.ok(userService.findByUserName(userName));
     }
 
     @Value("${file.upload-dir}")
@@ -77,7 +81,7 @@ public class UserControl {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("Xoá thành công!");

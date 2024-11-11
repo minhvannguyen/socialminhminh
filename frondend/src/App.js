@@ -8,6 +8,7 @@ import ChangePassword from './pages/sign/ChangePassword';
 import ProfilePage from './pages/profile/ProfilePage';
 import UpdateProfile from './pages/profile/UpdateProfile';
 import Follower from './pages/profile/Follower';
+import ProfileSclient from './pages/profile/ProfileSclient';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/updateProfile" element={<UpdateProfile />} />
+        <Route path="/profileClient" element={<ProfileSclient />} />
       </Routes>
     </BrowserRouter>
   );
