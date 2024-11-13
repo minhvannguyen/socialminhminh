@@ -58,15 +58,15 @@ export default function Login() {
       const res = await axios.post('http://localhost:8080/oauth2/callback/google', {
         token: tokenId,
       });
-
       // Lưu trữ thông tin người dùng hoặc token trong localStorage/sessionStorage
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('userName', res.data.userDto.userName);
-      localStorage.setItem('avatar', res.data.userDto.avatar);
-      localStorage.setItem('id', res.data.userDto.id);
-      localStorage.setItem('address', res.data.userDto.address);
-      localStorage.setItem('bio', res.data.userDto.bio);
-      localStorage.setItem('isSingle', res.data.userDto.isSingle);
+        localStorage.setItem('userName', res.data.userDto.userName);
+        localStorage.setItem('avatar', res.data.userDto.avatar);
+        localStorage.setItem('id', res.data.userDto.id);
+        localStorage.setItem('address', res.data.userDto.address);
+        localStorage.setItem('bio', res.data.userDto.bio);
+        localStorage.setItem('isSingle', res.data.userDto.isSingle);
+
     } catch (error) {
       console.error('Error during login:', error);
     }
@@ -74,8 +74,11 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     // Mở cửa sổ đăng nhập Google
-    window.open(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/&response_type=code&scope=profile email&access_type=offline`, "_self");
-  };
+    window.open(
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:8080/api/oauth2/callback&response_type=code&scope=profile email&access_type=offline`, 
+      "_self"
+    );
+      };
 
   return (
     <>

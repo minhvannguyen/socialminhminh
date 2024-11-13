@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cmt from '../Cmt';
 import { FaTimes } from 'react-icons/fa';
+import axios from 'axios';
 
 export default function PostDetail({Close, isOpen, postData}) {
+
+  const token = localStorage.getItem("token");
+  const idUser = localStorage.getItem("id");
+
   //logic comment
   const [isOpenCmt, setIsOpenCmt] = useState(false);
   const openCmt = () => {
@@ -15,18 +20,116 @@ export default function PostDetail({Close, isOpen, postData}) {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || "defaultAvatar.png");
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "Guest");
 
+  //click tym
+  const [isFilled, setIsFilled] = useState(false);
+
+  const tymData = {
+    idPost: postData.idPost,
+    idUser: idUser,
+  };
+
+  const handleTym = async () => {
+    try {
+      await axios.post(`http://localhost:8080/tym`, tymData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsFilled(!isFilled);
+      fetchNumberTym();
+
+    } catch (error) {
+      console.error("Lỗi tym:", error);
+    }
+  };
+
+  const handleDelTym = async () => {
+    try {
+      await axios.delete("http://localhost:8080/tym/unTym", {
+        data: {tymData},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsFilled(!isFilled);
+      fetchNumberTym();
+
+    } catch (error) {
+      console.error("Lỗi tym:", error);
+    }
+  };
+
+
+  const handleClickTym = () => {
+    if (isFilled) {
+      handleDelTym();
+    } else {
+      handleTym();
+    }
+  };
+
+  // Hàm lấy số lượng người tym
+  const [numberTym, setNumberTym] = useState(0);
+
+  const fetchNumberTym = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/tym/numberTym/${postData.idPost}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberTym(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người tym:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    const fetchData = async () => {
+      // Gọi API số lượng Tym
+      await fetchNumberTym();
+
+      const tymData = {
+        idPost: postData.idPost,
+        idUser: idUser,
+      };
+
+      try {
+        // Gọi API kiểm tra xem đã Tym chưa
+        const response = await axios.post(`http://localhost:8080/tym/isTym`, tymData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Lưu kết quả vào state
+        setIsFilled(response.data);
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra Tym:", error);
+      }
+    };
+
+    // Gọi fetchData khi postData.idPost, token hoặc idUser thay đổi
+    if (postData.idPost && token && idUser) {
+      fetchData();
+    }
+  }, [postData.idPost, token, idUser]);
+
+
   if(!isOpen) return null;
   return (
-    <div className="w-full fixed inset-0 bg-black bg-opacity-50 z-[9999]">
+    <div className="w-full fixed inset-0 bg-black lg:min-w-[500px] bg-opacity-50 z-[9999] flex items-center justify-center min-h-screen">
       <Cmt
           isOpen={isOpenCmt}
           Open={openCmt}
           Close={closeCmt}
         />
-      <div className="bg-white lg:max-w-[500px] h-[550px] scale-90 shadow-xl rounded-lg  translate-x-96 -translate-y-1/8 relative">
+      <div className="bg-white min-w-[400px] h-[500px] scale-90 shadow-xl rounded-lg relative">
       <FaTimes className="w-5 h-5 text-blue-600  hover:text-red-600 cursor-pointer ml-52 absolute top-0 right-0 m-2" onClick={Close}/>
         <div className="border-b border-gray-100" />
-        <div className="text-gray-400 font-medium mb-6 text-sm mt-6 mx-3 px-2 h-[400px]">
+        <div className="text-gray-400 font-medium mb-6 text-sm mt-6 mx-3 px-2 h-[350px]">
           
             <div className=" rounded-xl w-full h-full flex justify-center items-center">
               <img
@@ -63,11 +166,12 @@ export default function PostDetail({Close, isOpen, postData}) {
 
           </div>
           <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-          <div className="mr-1 mt-1 text-gray-400 text-sm"> 120k</div>
+          <div className="mr-1 mt-1 text-gray-400 text-sm"> {numberTym}</div>
             <span className=" mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer">
               <svg
-                className="h-4 w-4 text-red-500"
-                fill="none"
+                onClick={handleClickTym}
+                className="h-4 w-4 text-red-500 "
+                fill={isFilled ? "red" : "none"}
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}

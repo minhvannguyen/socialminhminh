@@ -1,14 +1,7 @@
-package com.anhminh.minhminh.module;
+package com.anhminh.minhminh.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-@Entity
-public class Tyms {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TymDto {
     private Long idTym;
     private Long idUser;
     private Long idPost;

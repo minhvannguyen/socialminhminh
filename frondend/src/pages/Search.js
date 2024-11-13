@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Search({ isOpen, Close }) {
+export default function Search({ isOpen }) {
 
     const token = localStorage.getItem("token");
 
@@ -26,7 +26,13 @@ export default function Search({ isOpen, Close }) {
                 }
                 
               });
-            navigate(`/profileClient`, { state: response.data });
+            
+              navigate('/profileClient', {
+                state: {
+                  userClient: response.data,
+                }
+              });
+              
             
         } catch (error) {
             if (error.response && error.response.data) {
@@ -50,7 +56,6 @@ export default function Search({ isOpen, Close }) {
                 onChange={handleInputChange}
             />
             <button
-            
                 type='submit'
                 className="bg-blue-600 hover:bg-blue-700 transition-all text-white text-sm rounded-full px-5 py-2"
                 

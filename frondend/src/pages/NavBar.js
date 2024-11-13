@@ -74,7 +74,6 @@ const NavBar = () => {
           <Search 
             isOpen={isOpenSearch}
             Open={openSearch}
-            Close={openSearch}
           />
         </div>
 

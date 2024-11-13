@@ -18,7 +18,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -54,13 +53,9 @@ public class SecurityConfig {
                     return config;
                 }))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers( "/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**", "/login", "/users", "/users/allUser").permitAll()
+                        .requestMatchers( "/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**", "/login", "/users/*","/uploads/images/**").permitAll()
                         .anyRequest().authenticated()
                 );
-        http
-                .securityMatcher("/callback/google") // Chỉ áp dụng OAuth2 login cho đường dẫn /callback/google
-                .oauth2Login(withDefaults()) // Đăng nhập bằng Google OAuth2 cho /callback/google
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()))); // Sử dụng JWT cho các API khác
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

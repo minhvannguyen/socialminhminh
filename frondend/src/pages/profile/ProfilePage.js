@@ -4,9 +4,11 @@ import Follower from './Follower';
 import Followed from './Followed';
 import UserPhotos from './UserPhotos';
 import NavBar from '../NavBar';
+import axios from 'axios';
 
 export default function ProfilePage() {
 
+  const token = localStorage.getItem("token");
   const idUser = localStorage.getItem("id");
 
   const location = useLocation();
@@ -27,6 +29,7 @@ export default function ProfilePage() {
     setIsOpenFollower(false);
   };
   //kết thúc logic follower
+  
   //logic số lượng bài viết
   const [numberPost, setNumberPost] = useState(false);
 
@@ -43,14 +46,56 @@ export default function ProfilePage() {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || "defaultAvatar.png");
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "Guest");
   // Cập nhật localStorage khi avatar hoặc userName thay đổi
-  useEffect(() => {
-    if (avatar) localStorage.setItem("avatar", avatar);
-    if (userName) localStorage.setItem("userName", userName);
-  }, [avatar, userName]);
-
+  
   const getNumberPost = (data) => {
         setNumberPost(data);
     };
+
+  //logic số lượng follower
+  // Trạng thái lưu số lượng người theo dõi
+  const [numberFollower, setNumberFollower] = useState(0);
+
+  // Hàm lấy số lượng người theo dõi từ API
+  const fetchNumberFollower = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollower/${idUser}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberFollower(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người theo dõi:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    fetchNumberFollower();
+  }, [idUser, token]);
+
+//logic số lượng following
+  // Trạng thái lưu số lượng người theo dõi
+  const [numberFollowing, setNumberFollowing] = useState(0);
+
+  // Hàm lấy số lượng người theo dõi từ API
+  const fetchNumberFollowing = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollowed/${idUser}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberFollowing(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người đang theo dõi:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    fetchNumberFollowing();
+  }, [idUser, token]);
 
   return (
     <div className="flex justify-center  items-center h-screen ">
@@ -78,7 +123,7 @@ export default function ProfilePage() {
                 <span className="text-gray-400">Bài viết</span>
               </div>
               <button className="font-semibold text-center mx-4" onClick={openFollower}>
-                <p className="text-black">102</p>
+                <p className="text-black">{numberFollower}</p>
                 <span className="text-gray-400 hover:text-blue-600 cursor-pointer">Người theo dõi</span>
 
               </button>
@@ -88,7 +133,7 @@ export default function ProfilePage() {
                 Close={closeFollower}
               />
               <button className="font-semibold text-center mx-4" onClick={openFollowed}>
-                <p className="text-black">102</p>
+                <p className="text-black">{numberFollowing}</p>
                 <span className="text-gray-400 hover:text-blue-600 cursor-pointer">Đang theo dõi</span>
               </button>
               <Followed

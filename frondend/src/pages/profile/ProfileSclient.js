@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Follower from './Follower';
 import Followed from './Followed';
 import UserPhotos from './UserPhotos';
 import NavBar from '../NavBar';
 import MessegerChat from '../MessegerChat';
+import axios from 'axios';
 
 export default function ProfileSclient() {
 
+  const token = localStorage.getItem("token");
+
   const location = useLocation();
-    const userClient = location.state;
+  const { userClient } = location.state;
   //logic follower
   const [isOpenFollower, setIsOpenFollower] = useState(false);
   const openFollower = () => {
@@ -32,19 +35,41 @@ export default function ProfileSclient() {
   };
   //kết thúc logic followed
   // Lấy thông tin từ localStorage hoặc đặt giá trị mặc định
-  const [avatar, setAvatar] = useState(userClient.avatar || "defaultAvatar.png");
-  const [userName, setUserName] = useState(userClient.userName || "Guest");
-  // Cập nhật localStorage khi avatar hoặc userName thay đổi
-  useEffect(() => {
-    if (avatar) localStorage.setItem("avatar", avatar);
-    if (userName) localStorage.setItem("userName", userName);
-  }, [avatar, userName]);
+  const [avatar, setAvatar] = useState(userClient?.avatar || "defaultAvatar.png");
+  const [userName, setUserName] = useState(userClient?.userName || "Guest");
 
-  const getNumberPost = (data) => {
-        setNumberPost(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      setAvatar(userClient?.avatar || "defaultAvatar.png");
+      setUserName(userClient?.userName || "Guest");
+
+      const followData = {
+        idFollower: localStorage.getItem("id"),
+        idFollowing: userClient.id,
+      };
+
+      try {
+        const response = await axios.post(`http://localhost:8080/follow/isFollowed`, followData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setIsFollow(response.data); // response.data chứa giá trị boolean
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra theo dõi:", error);
+      }
     };
 
-    //logic chat
+    if (userClient && token) {
+      fetchData();
+    }
+  }, [userClient, token]);
+  const getNumberPost = (data) => {
+    setNumberPost(data);
+  };
+
+  //logic chat
   const [isOpenChat, setIsOpenChat] = useState(false);
   const openChat = () => {
     setIsOpenChat(true);
@@ -54,13 +79,96 @@ export default function ProfileSclient() {
   };
   //kết thúc logic chat
 
+  //logic theo dõi
+  const [isFollow, setIsFollow] = useState(null);
+  const userData = {
+    idFollower: localStorage.getItem('id'),
+    idFollowing: userClient.id,
+  };
+  const handleSubmitFollow = async () => {
+    await axios.post("http://localhost:8080/follow", userData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    setIsFollow(!isFollow);
+    fetchNumberFollower();
+    fetchNumberFollowing();
+  };
+  const handleSubmitUnFollow = async () => {
+    await axios.delete("http://localhost:8080/follow/unFollow", {
+      data: userData,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
+    setIsFollow(!isFollow);
+    fetchNumberFollower();
+    fetchNumberFollowing();
+  };
+
+  const handleClick = () => {
+    if (isFollow) {
+      handleSubmitUnFollow();
+    } else {
+      handleSubmitFollow();
+    }
+    
+  };
+
+  //logic số lượng follower
+  // Trạng thái lưu số lượng người theo dõi
+  const [numberFollower, setNumberFollower] = useState(0);
+
+  // Hàm lấy số lượng người theo dõi từ API
+  const fetchNumberFollower = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollower/${userClient.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberFollower(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người theo dõi:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    fetchNumberFollower();
+  }, [userClient.id, token]);
+
+  //logic số lượng following
+  // Trạng thái lưu số lượng người theo dõi
+  const [numberFollowing, setNumberFollowing] = useState(0);
+
+  // Hàm lấy số lượng người theo dõi từ API
+  const fetchNumberFollowing = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollowed/${userClient.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberFollowing(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người đang theo dõi:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    fetchNumberFollowing();
+  }, [userClient.id, token]);
+
   return (
     <div className="flex justify-center  items-center h-screen ">
-      <MessegerChat 
-           isOpenChat={isOpenChat}
-           OpenChat={openChat}
-           CloseChat={closeChat}
-        />
+      <MessegerChat
+        isOpenChat={isOpenChat}
+        OpenChat={openChat}
+        CloseChat={closeChat}
+      />
       <div className="w-full h-full lg:max-w-[500px] bg-transparent shadow-lg relative">
         <NavBar />
         <div className="max-w-2xl mx-auto">
@@ -85,7 +193,7 @@ export default function ProfileSclient() {
                 <span className="text-gray-400">Bài viết</span>
               </div>
               <button className="font-semibold text-center mx-4" onClick={openFollower}>
-                <p className="text-black">102</p>
+                <p className="text-black">{numberFollower}</p>
                 <span className="text-gray-400 hover:text-blue-600 cursor-pointer">Người theo dõi</span>
 
               </button>
@@ -95,7 +203,7 @@ export default function ProfileSclient() {
                 Close={closeFollower}
               />
               <button className="font-semibold text-center mx-4" onClick={openFollowed}>
-                <p className="text-black">102</p>
+                <p className="text-black">{numberFollowing}</p>
                 <span className="text-gray-400 hover:text-blue-600 cursor-pointer">Đang theo dõi</span>
               </button>
               <Followed
@@ -105,9 +213,9 @@ export default function ProfileSclient() {
               />
             </div>
             <div className="flex justify-center gap-2 my-5">
-              <Link to="/updateProfile" className=" bg-red-400 hover:bg-pink-600 cursor-pointer px-5 py-1 rounded-full text-white shadow-lg">
-                Theo dõi
-              </Link>
+              <button onClick={handleClick} className=" bg-red-400 hover:bg-pink-600 cursor-pointer px-5 py-1 rounded-full text-white shadow-lg">
+                {isFollow ? "Đã theo dõi" : "Theo dõi"}
+              </button>
 
               <button
                 id="dropdownDefaultButton"
@@ -116,7 +224,7 @@ export default function ProfileSclient() {
                 onClick={openChat}
               >
                 Nhắn tin
-                
+
               </button>
             </div>
             <div className="flex justify-between items-center">
@@ -154,7 +262,7 @@ export default function ProfileSclient() {
               </button>
             </div>
             <div className="">
-              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={userClient.id} numberPost={getNumberPost}/>
+              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={userClient.id} numberPost={getNumberPost} />
             </div>
           </div>
 

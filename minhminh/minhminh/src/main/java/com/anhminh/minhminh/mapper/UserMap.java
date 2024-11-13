@@ -17,8 +17,7 @@ public class UserMap {
         users.setDate(userDto.getDate());
         users.setId(userDto.getId());
         users.setIsSingle(userDto.getIsSingle());
-        users.setFlowedNumbers(userDto.getFlowedNumbers());
-        users.setFlowerNumbers(userDto.getFlowerNumbers());
+
         return users;
     }
 
@@ -32,8 +31,7 @@ public class UserMap {
         userDto.setDate(users.getDate());
         userDto.setId(users.getId());
         userDto.setIsSingle(users.getIsSingle());
-        userDto.setFlowerNumbers(users.getFlowerNumbers());
-        userDto.setFlowedNumbers(users.getFlowedNumbers());
+
         return userDto;
     }
 }

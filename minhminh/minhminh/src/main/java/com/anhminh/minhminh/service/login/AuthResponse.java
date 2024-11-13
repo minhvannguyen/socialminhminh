@@ -3,9 +3,16 @@ package com.anhminh.minhminh.service.login;
 import com.anhminh.minhminh.dto.UserDto;
 
 public class AuthResponse {
-    private final String token;
+    private String token;
     private String email;
     private UserDto userDto;
+
+    public AuthResponse() {
+    }
+
+    public AuthResponse(String token) {
+        this.token = token;
+    }
 
     public AuthResponse(String token, String email) {
         this.token = token;
