@@ -6,6 +6,9 @@ import com.anhminh.minhminh.mapper.PostMap;
 import com.anhminh.minhminh.module.Posts;
 import com.anhminh.minhminh.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,5 +52,10 @@ public class PostService {
     public PostDto findPost(Long id) {
         Optional<Posts> posts = postRepository.findById(id);
         return posts.map(postMap::toDto).orElseThrow(() -> new ResourceNotFoundException("Post này còn ko tồn tại!"));
+    }
+
+    public Page<Posts> getRecentPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);  // Tạo Pageable đúng
+        return postRepository.findAllByOrderByIdPostDesc(pageable);
     }
 }

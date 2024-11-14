@@ -1,5 +1,7 @@
 package com.anhminh.minhminh.dto;
 
+import com.anhminh.minhminh.module.Posts;
+
 public class PostDto {
     private Long idPost;
     private Long idUser;
@@ -8,6 +10,20 @@ public class PostDto {
     private String date;
     private int likeNumbers;
     private int commentNumbers;
+
+    public PostDto(Posts post) {
+        this.setIdPost(post.getIdPost());
+        this.setContent(post.getContent());
+        this.setDate(post.getDate());
+        this.setIdUser(post.getIdUser());
+        this.setImageUrl(post.getImageUrl());
+        this.setCommentNumbers(post.getCommentNumbers());
+        this.setLikeNumbers(post.getLikeNumbers());
+
+    }
+
+    public PostDto() {
+    }
 
     public int getCommentNumbers() {
         return commentNumbers;

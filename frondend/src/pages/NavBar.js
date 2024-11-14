@@ -68,7 +68,7 @@ const NavBar = () => {
   return (
     <div className="w-full h-14 bg-transparent top-0 z-10 ">
       <div className="max-w-4xl bg-white mx-auto px-4 h-12 flex items-center justify-between fixed z-[8888]">
-        <div className="text-xl font-bold text-blue-400 flex mr-40">
+        <div className="text-xl font-bold text-blue-400 flex mr-24">
           minhminh
           <FaSearch className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" onClick={openSearch}/>
           <Search 

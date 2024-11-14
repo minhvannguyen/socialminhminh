@@ -1,9 +1,7 @@
 package com.anhminh.minhminh.service;
 
-import com.anhminh.minhminh.dto.FollowersDto;
 import com.anhminh.minhminh.dto.TymDto;
 import com.anhminh.minhminh.mapper.TymMap;
-import com.anhminh.minhminh.module.Followers;
 import com.anhminh.minhminh.module.Tyms;
 import com.anhminh.minhminh.repository.TymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,31 +12,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Tymserver {
+public class Tymservice {
     private  final TymRepository tymRepository;
     private  final TymMap tymMap;
 
     @Autowired
-    public Tymserver(TymRepository tymRepository, TymMap tymMap) {
+    public Tymservice(TymRepository tymRepository, TymMap tymMap) {
         this.tymRepository = tymRepository;
         this.tymMap = tymMap;
     }
 
-    public ResponseEntity<String> tymServer (TymDto tymDto) {
-        Optional<Tyms> tyms = tymRepository.findByIdPostAndIdUser(tymDto.getIdPost(), tymDto.getIdUser());
-        if(tyms.isPresent()) {
+    public ResponseEntity<String> tymService(TymDto tymDto) {
+        Optional<Tyms> tym = tymRepository.findByIdPostAndIdUser(tymDto.getIdPost(), tymDto.getIdUser());
+        if(tym.isPresent()) {
             return ResponseEntity.ok("Đã tym!");
         }
         else {
-            Tyms tym = tymMap.toEntity(tymDto);
-            tymRepository.save(tym);
+            Tyms tyms = tymMap.toEntity(tymDto);
+            tymRepository.save(tyms);
             return ResponseEntity.ok("Đã tym!");
         }
 
 
     }
 
-    public ResponseEntity<String> delTymServer(TymDto tymDto) {
+    public ResponseEntity<String> delTymService(TymDto tymDto) {
         Optional<Tyms> tyms = tymRepository.findByIdPostAndIdUser(tymDto.getIdPost(), tymDto.getIdUser());
         if(tyms.isPresent()) {
             tymRepository.deleteById(tyms.get().getIdTym());

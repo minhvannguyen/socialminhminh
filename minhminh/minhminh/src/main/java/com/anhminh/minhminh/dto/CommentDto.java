@@ -1,18 +1,12 @@
-package com.anhminh.minhminh.module;
+package com.anhminh.minhminh.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Comments {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CommentDto {
     private Long idComent;
     private Long idPost;
     private Long idUser;
     private String content;
+    private String username;
+    private String userAvatar;
 
     public Long getIdComent() {
         return idComent;
@@ -20,6 +14,22 @@ public class Comments {
 
     public void setIdComent(Long idComent) {
         this.idComent = idComent;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getIdPost() {

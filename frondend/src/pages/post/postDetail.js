@@ -125,6 +125,7 @@ export default function PostDetail({Close, isOpen, postData}) {
           isOpen={isOpenCmt}
           Open={openCmt}
           Close={closeCmt}
+          idPost={postData.idPost}
         />
       <div className="bg-white min-w-[400px] h-[500px] scale-90 shadow-xl rounded-lg relative">
       <FaTimes className="w-5 h-5 text-blue-600  hover:text-red-600 cursor-pointer ml-52 absolute top-0 right-0 m-2" onClick={Close}/>
@@ -183,7 +184,7 @@ export default function PostDetail({Close, isOpen, postData}) {
                 />
               </svg>
             </span>
-            <span onClick={openCmt} className="mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer">
+            <span onClick={openCmt} className="mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer overflow-hidden roll">
               <svg
                 className="h-4 w-4 text-blue-500"
                 fill="none"

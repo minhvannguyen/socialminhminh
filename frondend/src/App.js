@@ -7,11 +7,16 @@ import ConfirmOtp from './pages/sign/ConfirmOtp';
 import ChangePassword from './pages/sign/ChangePassword';
 import ProfilePage from './pages/profile/ProfilePage';
 import UpdateProfile from './pages/profile/UpdateProfile';
-import Follower from './pages/profile/Follower';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ProfileSclient from './pages/profile/ProfileSclient';
+
 
 function App() {
   return (
+    <>
+    <ToastContainer position="bottom-center" autoClose={2000} style={{ marginBottom: '250px' }} />
+
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -25,6 +30,7 @@ function App() {
         <Route path="/profileClient" element={<ProfileSclient />} />
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

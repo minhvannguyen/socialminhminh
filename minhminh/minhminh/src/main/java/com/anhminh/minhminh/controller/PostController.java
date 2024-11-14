@@ -1,10 +1,14 @@
 package com.anhminh.minhminh.controller;
 
-import com.anhminh.minhminh.dto.PostDto;import com.anhminh.minhminh.service.PostService;
+import com.anhminh.minhminh.dto.PostDto;
+import com.anhminh.minhminh.module.Posts;
+import com.anhminh.minhminh.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,12 @@ import java.nio.file.StandardCopyOption;
 @RequestMapping("/posts")
 public class PostController {
     private final PostService postService;
+    private final PagedResourcesAssembler<Posts> pagedResourcesAssembler;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PagedResourcesAssembler<Posts> pagedResourcesAssembler) {
         this.postService = postService;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
     @GetMapping("/allPost/{idUser}")
     public ResponseEntity<Object> getAllPost(@PathVariable Long idUser) {
@@ -73,4 +79,10 @@ public class PostController {
         postService.deletePost(id);
         return ResponseEntity.ok("Xoá thành công!");
     }
+
+    @GetMapping("/recent")
+    public Page<PostDto> getRecentPosts(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size) {
+        Page<Posts> postsPage = postService.getRecentPosts(page, size);
+        return postsPage.map(PostDto::new);   }
 }

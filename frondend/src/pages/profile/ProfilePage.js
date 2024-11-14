@@ -68,6 +68,10 @@ export default function ProfilePage() {
       console.error("Lỗi khi lấy số lượng người theo dõi:", error);
     }
   };
+  //trạng thái tym
+  const [isTym, setIsTym] = useState(null);
+
+  
 
   // Gọi API khi component được mount
   useEffect(() => {
@@ -96,6 +100,8 @@ export default function ProfilePage() {
   useEffect(() => {
     fetchNumberFollowing();
   }, [idUser, token]);
+
+
 
   return (
     <div className="flex justify-center  items-center h-screen ">
@@ -206,12 +212,13 @@ export default function ProfilePage() {
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      to="/login"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                      onClick={() => localStorage.clear()}
                     >
                       Sign out
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

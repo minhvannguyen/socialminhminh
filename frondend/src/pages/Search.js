@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'react-toastify';
 
 export default function Search({ isOpen }) {
 
@@ -47,7 +46,6 @@ export default function Search({ isOpen }) {
     if (!isOpen) return null;
     return (
         <form onSubmit={handleSubmit}>
-        <ToastContainer position="bottom-center" autoClose={3000} style={{ marginBottom: '250px' }} />
         <div className="bg-white flex px-1 py-1 fixed z-[9999] mt-11  rounded-full border border-blue-500 overflow-hidden max-w-md mx-auto font-[sans-serif]">
             <input
                 type="text"

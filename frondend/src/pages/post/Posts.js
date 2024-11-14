@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cmt from '../Cmt';
+import { FaTimes } from 'react-icons/fa';
+import axios from 'axios';
 
-export default function Posts() {
+export default function Posts({postData}) {
+
+  const token = localStorage.getItem("token");
+  const idUser = localStorage.getItem("id");
+
   //logic comment
   const [isOpenCmt, setIsOpenCmt] = useState(false);
   const openCmt = () => {
@@ -11,63 +17,138 @@ export default function Posts() {
     setIsOpenCmt(false);
   };
   //kết thúc logic comment
+  const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || "defaultAvatar.png");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "Guest");
+
+  //click tym
+  const [isFilled, setIsFilled] = useState(false);
+
+  const tymData = {
+    idPost: postData.idPost,
+    idUser: idUser,
+  };
+
+  const handleTym = async () => {
+    try {
+      await axios.post(`http://localhost:8080/tym`, tymData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsFilled(!isFilled);
+      fetchNumberTym();
+
+    } catch (error) {
+      console.error("Lỗi tym:", error);
+    }
+  };
+
+  const handleDelTym = async () => {
+    try {
+      await axios.delete("http://localhost:8080/tym/unTym", {
+        data: {tymData},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsFilled(!isFilled);
+      fetchNumberTym();
+
+    } catch (error) {
+      console.error("Lỗi tym:", error);
+    }
+  };
+
+
+  const handleClickTym = () => {
+    if (isFilled) {
+      handleDelTym();
+    } else {
+      handleTym();
+    }
+  };
+
+  // Hàm lấy số lượng người tym
+  const [numberTym, setNumberTym] = useState(0);
+
+  const fetchNumberTym = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/tym/numberTym/${postData.idPost}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNumberTym(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy số lượng người tym:", error);
+    }
+  };
+
+  // Gọi API khi component được mount
+  useEffect(() => {
+    const fetchData = async () => {
+      // Gọi API số lượng Tym
+      await fetchNumberTym();
+
+      const tymData = {
+        idPost: postData.idPost,
+        idUser: idUser,
+      };
+
+      try {
+        // Gọi API kiểm tra xem đã Tym chưa
+        const response = await axios.post(`http://localhost:8080/tym/isTym`, tymData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Lưu kết quả vào state
+        setIsFilled(response.data);
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra Tym:", error);
+      }
+    };
+
+    // Gọi fetchData khi postData.idPost, token hoặc idUser thay đổi
+    if (postData.idPost && token && idUser) {
+      fetchData();
+    }
+  }, [postData.idPost, token, idUser]);
+
+  //kết thúc logic comment
   return (
     <>
+      
+      <div className="bg-white shadow-xl rounded-lg mb-6">
+        
       <Cmt
           isOpen={isOpenCmt}
           Open={openCmt}
           Close={closeCmt}
+          idPost={postData.idPost}
         />
-      <div className="bg-white shadow-xl rounded-lg mb-6">
-        
+      <div className="bg-white min-w-[400px] h-[500px] scale-90 rounded-lg relative">
         <div className="border-b border-gray-100" />
-        <div className="text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2">
-          <div className="grid grid-cols-6 col-span-2   gap-2  ">
-            <div className=" overflow-hidden rounded-xl col-span-3 max-h-[14rem]">
+        <div className="text-gray-400 font-medium mb-6 text-sm mt-6 mx-3 px-2 h-[350px]">
+          
+            <div className=" rounded-xl w-full h-full flex justify-center items-center">
               <img
-                className="h-full w-full object-cover "
-                src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
+                className="h-auto w-auto max-h-full max-w-full object-contain"
+                src={postData.imageUrl}
                 alt=""
+                loading="lazy"
               />
             </div>
-            <div className=" overflow-hidden rounded-xl col-span-3 max-h-[14rem]">
-              <img
-                className="h-full w-full object-cover  "
-                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1399&q=80"
-                alt=""
-              />
-            </div>
-            <div className=" overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
-              <img
-                className="h-full w-full object-cover "
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                alt=""
-              />
-            </div>
-            <div className=" overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
-              <img
-                className="h-full w-full object-cover "
-                src="https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                alt=""
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-xl col-span-2 max-h-[10rem]">
-              <div className="text-white text-xl absolute inset-0  bg-slate-900/80 flex justify-center items-center">
-                + 23
-              </div>
-              <img
-                className="h-full w-full object-cover "
-                src="https://images.unsplash.com/photo-1560393464-5c69a73c5770?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80"
-                alt=""
-              />
-            </div>
-          </div>
+          
         </div>
 
         <div className="text-gray-500 text-sm mx-3 px-2">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500
+          {postData.content}
+        </div>
+        <div className="text-gray-900 text-sm mx-3 px-2">
+          {postData.date}
         </div>
 
         <div className="flex justify-start mb-12 border-t mt-3 border-gray-100">
@@ -77,22 +158,23 @@ export default function Posts() {
                 <img
                   className="w-9 h-9 object-cover rounded-full shadow cursor-pointer"
                   alt="User avatar"
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                  src={avatar}
                 />
               </div>
               <div className="flex flex-col ml-2 ">
-                <div className="text-gray-600 text-sm font-bold ml-2">John Doe</div>
+                <div className="text-gray-600 text-sm font-bold ml-2">{userName}</div>
               </div>
             </div>
 
 
           </div>
           <div className="flex justify-end w-full mt-1 pt-2 pr-5">
-          <div className="mr-1 mt-1 text-gray-400 text-sm"> 120k</div>
+          <div className="mr-1 mt-1 text-gray-400 text-sm"> {numberTym}</div>
             <span className=" mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer">
               <svg
-                className="h-4 w-4 text-red-500"
-                fill="none"
+                onClick={handleClickTym}
+                className="h-4 w-4 text-red-500 "
+                fill={isFilled ? "red" : "none"}
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -120,7 +202,7 @@ export default function Posts() {
               </svg>
             </span>
 
-            <span className="mr-2 transition ease-out duration-300 hover:bg-blue-50 bg-blue-100 w-8 h-8 px-2 py-2 text-center rounded-full text-blue-400 cursor-pointer mr-2">
+            <span className="mr-2 transition ease-out duration-300 hover:bg-blue-50 bg-blue-100 w-8 h-8 px-2 py-2 text-center rounded-full text-blue-400 cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -139,6 +221,7 @@ export default function Posts() {
 
           </div>
         </div>  
+      </div> 
       </div>
       
     </>

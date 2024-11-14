@@ -30,7 +30,7 @@ export default function Messeger({ isOpen, Close}) {
         </div>
       </header>
       {/* Contact List */}
-      <div className="overflow-y-auto h-screen p-3 mb-9 pb-20" >
+      <div className="overflow-y-auto h-screen p-3 mb-9 " >
         <MessegerChat 
            isOpenChat={isOpenChat}
            OpenChat={openChat}
