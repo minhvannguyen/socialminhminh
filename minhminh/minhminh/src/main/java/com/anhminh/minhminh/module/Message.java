@@ -2,7 +2,6 @@ package com.anhminh.minhminh.module;
 
 import jakarta.persistence.*;
 
-import java.security.Timestamp;
 
 @Entity
 public class Message {

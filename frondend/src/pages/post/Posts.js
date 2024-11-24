@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Cmt from '../Cmt';
-import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 
 export default function Posts({postData}) {
@@ -17,8 +16,6 @@ export default function Posts({postData}) {
     setIsOpenCmt(false);
   };
   //kết thúc logic comment
-  const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || "defaultAvatar.png");
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "Guest");
 
   //click tym
   const [isFilled, setIsFilled] = useState(false);
@@ -30,7 +27,7 @@ export default function Posts({postData}) {
 
   const handleTym = async () => {
     try {
-      await axios.post(`http://localhost:8080/tym`, tymData, {
+      await axios.post('http://localhost:8080/tym/Tymed', tymData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +43,7 @@ export default function Posts({postData}) {
   const handleDelTym = async () => {
     try {
       await axios.delete("http://localhost:8080/tym/unTym", {
-        data: {tymData},
+        data: tymData,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -144,10 +141,10 @@ export default function Posts({postData}) {
           
         </div>
 
-        <div className="text-gray-500 text-sm mx-3 px-2">
+        <div className="text-gray-700 text-sm mx-3 px-2">
           {postData.content}
         </div>
-        <div className="text-gray-900 text-sm mx-3 px-2">
+        <div className="text-gray-500 text-sm mx-3 px-2">
           {postData.date}
         </div>
 
@@ -158,11 +155,11 @@ export default function Posts({postData}) {
                 <img
                   className="w-9 h-9 object-cover rounded-full shadow cursor-pointer"
                   alt="User avatar"
-                  src={avatar}
+                  src={postData.avatar}
                 />
               </div>
               <div className="flex flex-col ml-2 ">
-                <div className="text-gray-600 text-sm font-bold ml-2">{userName}</div>
+                <div className="text-gray-600 text-sm font-bold ml-2">{postData.userName}</div>
               </div>
             </div>
 

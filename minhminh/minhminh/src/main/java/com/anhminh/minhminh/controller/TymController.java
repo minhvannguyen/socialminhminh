@@ -16,7 +16,7 @@ public class TymController {
         this.tymservice = tymservice;
     }
 
-    @PostMapping
+    @PostMapping("/Tymed")
     public ResponseEntity<String> tymed(@RequestBody TymDto tymDto) {
         tymservice.tymService(tymDto);
         return ResponseEntity.ok("Đã tym!");

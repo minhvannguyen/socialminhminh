@@ -134,7 +134,7 @@ export default function ChangePassword({Back}) {
           Reset passwod
         </button>
         <div className='flex justify-center items-center text-center'>
-               <Link className='text-blue-700 decoration-2 hover:underline' to="/login">Đăng nhập</Link>
+               <Link className='text-blue-700 decoration-2 hover:underline' to="/">Đăng nhập</Link>
         </div>
       </form>
       {successMessage && <p className="text-green-600 ml-8 text-center">{successMessage}</p>}

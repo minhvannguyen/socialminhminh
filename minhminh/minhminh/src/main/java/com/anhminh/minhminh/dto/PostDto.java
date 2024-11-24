@@ -4,41 +4,22 @@ import com.anhminh.minhminh.module.Posts;
 
 public class PostDto {
     private Long idPost;
-    private Long idUser;
     private String content;
     private String imageUrl;
     private String date;
-    private int likeNumbers;
-    private int commentNumbers;
-
-    public PostDto(Posts post) {
-        this.setIdPost(post.getIdPost());
-        this.setContent(post.getContent());
-        this.setDate(post.getDate());
-        this.setIdUser(post.getIdUser());
-        this.setImageUrl(post.getImageUrl());
-        this.setCommentNumbers(post.getCommentNumbers());
-        this.setLikeNumbers(post.getLikeNumbers());
-
-    }
+    private String avatar;
+    private String userName;
 
     public PostDto() {
     }
 
-    public int getCommentNumbers() {
-        return commentNumbers;
-    }
-
-    public void setCommentNumbers(int commentNumbers) {
-        this.commentNumbers = commentNumbers;
-    }
-
-    public int getLikeNumbers() {
-        return likeNumbers;
-    }
-
-    public void setLikeNumbers(int likeNumbers) {
-        this.likeNumbers = likeNumbers;
+    public PostDto(Posts posts) {
+        this.setImageUrl(posts.getImageUrl());
+        this.setContent(posts.getContent());
+        this.setDate(posts.getDate());
+        this.setIdPost(posts.getIdPost());
+        this.setAvatar(posts.getUser().getAvatar());
+        this.setUserName(posts.getUser().getUserName());
     }
 
     public Long getIdPost() {
@@ -49,12 +30,20 @@ public class PostDto {
         this.idPost = idPost;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getContent() {

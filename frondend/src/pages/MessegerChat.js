@@ -18,7 +18,7 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
     <div className="flex-1">
       {/* Chat Header */}
       <header className="bg-white p-4 flex justify-between items-center text-gray-700">
-        <h1 className="text-2xl font-semibold">Alice</h1>
+        <h1 className="text-2xl font-semibold">Võ Nữ Thánh Hiền</h1>
         <FaTimes className="w-5 h-5 text-blue-600  hover:text-red-600 cursor-pointer" onClick={CloseChat}/>
       </header>
       {/* Chat Messages */}
@@ -27,25 +27,26 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
-            <p className="text-gray-700">Hey Bob, how's it going?</p>
+            <p className="text-gray-700">helo a</p>
           </div>
         </div>
         {/* Outgoing Message */}
         <div className="flex justify-end mb-4 cursor-pointer">
           <div className="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3">
             <p>
-              Hi Alice! I'm good, just finished a great book. How about you?
+              hi e, e ăn cơm chưa?
             </p>
           </div>
           <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
             <img
-              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731599214837-download.jpg
+"
               alt="My Avatar"
               className="w-8 h-8 rounded-full"
             />
@@ -55,14 +56,14 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
             <p className="text-gray-700">
-              That book sounds interesting! What's it about?
+              e ăn ròi ạ
             </p>
           </div>
         </div>
@@ -70,13 +71,12 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex justify-end mb-4 cursor-pointer">
           <div className="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3">
             <p>
-              It's about an astronaut stranded on Mars, trying to survive.
-              Gripping stuff!
+              e ăn cơm với gì?
             </p>
           </div>
           <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
             <img
-              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731599214837-download.jpg"
               alt="My Avatar"
               className="w-8 h-8 rounded-full"
             />
@@ -86,25 +86,25 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
             <p className="text-gray-700">
-              I'm intrigued! Maybe I'll borrow it from you when you're done?
+              e ăn với canh rau muống và cà rầm tương
             </p>
           </div>
         </div>
         {/* Outgoing Message */}
         <div className="flex justify-end mb-4 cursor-pointer">
           <div className="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3">
-            <p>Of course! I'll drop it off at your place tomorrow.</p>
+            <p>ngon ko e</p>
           </div>
           <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
             <img
-              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731599214837-download.jpg"
               alt="My Avatar"
               className="w-8 h-8 rounded-full"
             />
@@ -114,23 +114,23 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
-            <p className="text-gray-700">Thanks, you're the best!</p>
+            <p className="text-gray-700">dạ ngon</p>
           </div>
         </div>
         {/* Outgoing Message */}
         <div className="flex justify-end mb-4 cursor-pointer">
           <div className="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3">
-            <p>Anytime! Let me know how you like it. 😊</p>
+            <p>uk😊</p>
           </div>
           <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
             <img
-              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731599214837-download.jpg"
               alt="My Avatar"
               className="w-8 h-8 rounded-full"
             />
@@ -140,23 +140,23 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
-            <p className="text-gray-700">So, pizza next week, right?</p>
+            <p className="text-gray-700">vầng</p>
           </div>
         </div>
         {/* Outgoing Message */}
         <div className="flex justify-end mb-4 cursor-pointer">
           <div className="flex max-w-96 bg-indigo-500 text-white rounded-lg p-3 gap-3">
-            <p>Absolutely! Can't wait for our pizza date. 🍕</p>
+            <p>uk</p>
           </div>
           <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
             <img
-              src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731599214837-download.jpg"
               alt="My Avatar"
               className="w-8 h-8 rounded-full"
             />
@@ -166,13 +166,13 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
         <div className="flex mb-4 cursor-pointer">
           <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
             <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+              src="http://localhost:8080/uploads/images/1731635348355-images%20(8).jpg"
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
           <div className="flex max-w-96 bg-white rounded-lg p-3 gap-3">
-            <p className="text-gray-700">Hoorayy!!</p>
+            <p className="text-gray-700">vầng</p>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@ export default function MessegerChat({ isOpenChat, CloseChat}) {
             className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
           />
           <button className="bg-indigo-500 text-white px-4 py-2 rounded-md ml-2">
-            Send
+            gửi
           </button>
         </div>
       </footer>

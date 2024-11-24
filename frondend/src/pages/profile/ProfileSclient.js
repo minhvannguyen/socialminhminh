@@ -169,7 +169,7 @@ export default function ProfileSclient() {
         OpenChat={openChat}
         CloseChat={closeChat}
       />
-      <div className="w-full h-full lg:max-w-[500px] bg-transparent shadow-lg relative">
+      <div className="w-full h-full lg:max-w-[450px] bg-transparent shadow-lg relative">
         <NavBar />
         <div className="max-w-2xl mx-auto">
           <div className="px-3 py-2">
@@ -201,6 +201,7 @@ export default function ProfileSclient() {
                 IsOpenFollower={isOpenFollower}
                 Open={openFollower}
                 Close={closeFollower}
+                
               />
               <button className="font-semibold text-center mx-4" onClick={openFollowed}>
                 <p className="text-black">{numberFollowing}</p>

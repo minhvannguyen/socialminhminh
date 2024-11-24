@@ -30,13 +30,13 @@ export default function PostDetail({Close, isOpen, postData}) {
 
   const handleTym = async () => {
     try {
-      await axios.post(`http://localhost:8080/tym`, tymData, {
+      await axios.post(`http://localhost:8080/tym/Tymed`, tymData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setIsFilled(!isFilled);
-      fetchNumberTym();
+      fetchNumberTym(postData.idPost);
 
     } catch (error) {
       console.error("Lỗi tym:", error);
@@ -46,13 +46,13 @@ export default function PostDetail({Close, isOpen, postData}) {
   const handleDelTym = async () => {
     try {
       await axios.delete("http://localhost:8080/tym/unTym", {
-        data: {tymData},
+        data: tymData,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setIsFilled(!isFilled);
-      fetchNumberTym();
+      fetchNumberTym(postData.idPost);
 
     } catch (error) {
       console.error("Lỗi tym:", error);
@@ -142,10 +142,10 @@ export default function PostDetail({Close, isOpen, postData}) {
           
         </div>
 
-        <div className="text-gray-500 text-sm mx-3 px-2">
+        <div className="text-gray-700 text-sm mx-3 px-2">
           {postData.content}
         </div>
-        <div className="text-gray-900 text-sm mx-3 px-2">
+        <div className="text-gray-500 text-sm mx-3 px-2">
           {postData.date}
         </div>
 
@@ -184,7 +184,7 @@ export default function PostDetail({Close, isOpen, postData}) {
                 />
               </svg>
             </span>
-            <span onClick={openCmt} className="mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer overflow-hidden roll">
+            <span onClick={openCmt} className="mr-2 transition ease-out duration-300 hover:bg-gray-50 bg-gray-100 h-8 px-2 py-2 text-center rounded-full text-gray-100 cursor-pointer">
               <svg
                 className="h-4 w-4 text-blue-500"
                 fill="none"

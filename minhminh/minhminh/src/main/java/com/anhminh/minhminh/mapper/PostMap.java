@@ -11,10 +11,7 @@ public class PostMap {
         posts.setIdPost(postDto.getIdPost());
         posts.setContent(postDto.getContent());
         posts.setDate(postDto.getDate());
-        posts.setIdUser(postDto.getIdUser());
         posts.setImageUrl(postDto.getImageUrl());
-        posts.setCommentNumbers(postDto.getCommentNumbers());
-        posts.setLikeNumbers(postDto.getLikeNumbers());
         return posts;
     }
     public PostDto toDto(Posts post) {
@@ -22,10 +19,8 @@ public class PostMap {
         postDto.setIdPost(post.getIdPost());
         postDto.setContent(post.getContent());
         postDto.setDate(post.getDate());
-        postDto.setIdUser(post.getIdUser());
         postDto.setImageUrl(post.getImageUrl());
-        postDto.setCommentNumbers(post.getCommentNumbers());
-        postDto.setLikeNumbers(post.getLikeNumbers());
+        
 
         return postDto;
     }

@@ -10,7 +10,7 @@ export default function UpdateProfile() {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar"));
   const [message, setMessage] = useState({});
   const [postData, setPostData] = useState({
-    id: localStorage.getItem("userId"),
+    id: localStorage.getItem("id"),
     userName: localStorage.getItem("userName"),
     bio: localStorage.getItem("bio"),
     address: localStorage.getItem("address"),
@@ -47,6 +47,11 @@ export default function UpdateProfile() {
         }
       });
       setAvatar(response.data.avatar);
+        localStorage.setItem('userName', response.data.userName);
+        localStorage.setItem('avatar', response.data.avatar);
+        localStorage.setItem('address', response.data.address);
+        localStorage.setItem('bio', response.data.bio);
+        localStorage.setItem('isSingle', response.data.isSingle);
       setMessage({ success: "cập nhật thành công!" })
     }
     catch (error) {

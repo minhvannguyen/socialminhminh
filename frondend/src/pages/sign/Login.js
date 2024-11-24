@@ -37,7 +37,7 @@ export default function Login() {
         localStorage.setItem('isSingle', response.data.userDto.isSingle);
 
         setMessage({ success: 'Đăng nhập thành công!' });
-        navigate("/")
+        navigate("/home")
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -74,11 +74,8 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     // Mở cửa sổ đăng nhập Google
-    window.open(
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:8080/api/oauth2/callback&response_type=code&scope=profile email&access_type=offline`, 
-      "_self"
-    );
-      };
+    window.open(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=http://localhost:3000/home&response_type=code&scope=profile email&access_type=offline`, "_self");
+  };
 
   return (
     <>

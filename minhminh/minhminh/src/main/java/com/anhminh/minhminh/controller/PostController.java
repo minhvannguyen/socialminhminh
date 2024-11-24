@@ -8,7 +8,6 @@ import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +22,10 @@ import java.nio.file.StandardCopyOption;
 @RequestMapping("/posts")
 public class PostController {
     private final PostService postService;
-    private final PagedResourcesAssembler<Posts> pagedResourcesAssembler;
 
     @Autowired
-    public PostController(PostService postService, PagedResourcesAssembler<Posts> pagedResourcesAssembler) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
     @GetMapping("/allPost/{idUser}")
     public ResponseEntity<Object> getAllPost(@PathVariable Long idUser) {
@@ -40,7 +37,7 @@ public class PostController {
     private String uploadDir;
 
     @PostMapping("/up")
-    public ResponseEntity<Object> postUp( @RequestParam("postDto") String postDtoJson, @RequestParam("imgfile") MultipartFile file) {
+    public ResponseEntity<Object> postUp( @RequestParam("postDto") String postDtoJson, @RequestParam("idUser") Long idUser, @RequestParam("imgfile") MultipartFile file) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             PostDto postDto = objectMapper.readValue(postDtoJson, PostDto.class);
@@ -57,7 +54,7 @@ public class PostController {
             String fileUrl = "http://localhost:8080/uploads/images/" + fileName;
             postDto.setImageUrl(fileUrl);
 
-            postService.postUpService(postDto);
+            postService.postUpService(postDto, idUser);
             return ResponseEntity.ok("Đăng bài thành công!");
         } catch (IOException | java.io.IOException e) {
             e.printStackTrace(); // In chi tiết lỗi vào console

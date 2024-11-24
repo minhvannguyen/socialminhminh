@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function PostNews1({imgfile, close, fileUrl }) {
 
   const token = localStorage.getItem("token");
 
-  const [message, setMessage] = useState({});
   const date = new Date();
-  const [file, setFile] = useState({});
   const [postData, setPostData] = useState({
-    idUser: localStorage.getItem("userId"),
     content: '',
     date: date.toLocaleDateString(),
   });
@@ -17,6 +15,7 @@ export default function PostNews1({imgfile, close, fileUrl }) {
   const formData = new FormData();  // Tạo một đối tượng FormData
     formData.append('imgfile', imgfile);
     formData.append("postDto", JSON.stringify(postData));
+    formData.append("idUser", localStorage.getItem("id"));
 
   useEffect(() => {
     if (fileUrl) {
@@ -28,7 +27,6 @@ export default function PostNews1({imgfile, close, fileUrl }) {
     }
   }, [fileUrl]);
   const handleCancleBtn = (e) => {
-    setMessage({});
     close();
   }
 
@@ -41,7 +39,6 @@ export default function PostNews1({imgfile, close, fileUrl }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({});
     try {
       const response =await axios.post("http://localhost:8080/posts/up", formData, {
         headers: {
@@ -49,14 +46,14 @@ export default function PostNews1({imgfile, close, fileUrl }) {
           'Content-Type': 'multipart/form-data',  // Đảm bảo header là multipart
         }
       });
-      setMessage({success:  response.data})
+      toast.success(response.data);
     }
     catch (error) {
       if (error.response && error.response.data) {
           // Lấy thông báo lỗi từ API
-          setMessage({errors: error.response.data}); // Hiển thị thông báo lỗi từ backend
+          toast.error(error.response.data); // Hiển thị thông báo lỗi từ backend
             } else {
-                setMessage({errors: 'Đã xảy ra lỗi, vui lòng thử lại!'});
+              toast.error("đã có lỗi xảy ra!.");
             }
   }
   }
@@ -81,7 +78,7 @@ export default function PostNews1({imgfile, close, fileUrl }) {
         />
         <div className='flex justify-center items-center'>
           <img
-            className="w-8/12 p-2"
+            className="w-8/12 h-64 p-2 object-contain"
             alt='ảnh của bạn'
             src={fileUrl}
           />
@@ -142,8 +139,7 @@ export default function PostNews1({imgfile, close, fileUrl }) {
         </div>
         {/* buttons */}
         <div className="buttons flex">
-          {message.errors && <p className='mt-2 text-red-600'>{message.errors}</p>}
-          {message.success && <p className='mt-2 text-green-600'>{message.success}</p>}
+          
           <button className="btn bg-red-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-auto" type='button' onClick={handleCancleBtn}>
             Cancel
           </button>

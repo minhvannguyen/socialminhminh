@@ -172,7 +172,7 @@ export default function Register() {
             <hr className="mb-6 border-t" />
             <div className='flex'>
                <div className='text-gray-500 mr-3'>Bạn đã có tài khoản?</div>
-               <Link className='text-blue-700 decoration-2 hover:underline' to="/login">Đăng nhập thôi!</Link>
+               <Link className='text-blue-700 decoration-2 hover:underline' to="/">Đăng nhập thôi!</Link>
             </div>
             
           </form>

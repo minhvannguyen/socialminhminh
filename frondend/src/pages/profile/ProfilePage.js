@@ -31,7 +31,7 @@ export default function ProfilePage() {
   //kết thúc logic follower
   
   //logic số lượng bài viết
-  const [numberPost, setNumberPost] = useState(false);
+  const [numberPost, setNumberPost] = useState(null);
 
   //logic followed
   const [isOpenFollowed, setIsOpenFollowed] = useState(false);
@@ -105,7 +105,7 @@ export default function ProfilePage() {
 
   return (
     <div className="flex justify-center  items-center h-screen ">
-      <div className="w-full h-full lg:max-w-[500px] bg-transparent shadow-lg relative">
+      <div className="w-full h-full lg:max-w-[450px] bg-transparent shadow-lg relative">
         <NavBar />
         <div className="max-w-2xl mx-auto">
           <div className="px-3 py-2">
@@ -213,7 +213,7 @@ export default function ProfilePage() {
                   </li>
                   <li>
                     <Link
-                      to="/login"
+                      to="/"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       onClick={() => localStorage.clear()}
                     >

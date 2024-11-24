@@ -21,24 +21,6 @@ public class Users {
     private Date date;
     private String avatar;
     private String isSingle;
-    private int flowerNumbers;
-    private int flowedNumbers;
-
-    public int getFlowerNumbers() {
-        return flowerNumbers;
-    }
-
-    public void setFlowerNumbers(int flowerNumbers) {
-        this.flowerNumbers = flowerNumbers;
-    }
-
-    public int getFlowedNumbers() {
-        return flowedNumbers;
-    }
-
-    public void setFlowedNumbers(int flowedNumbers) {
-        this.flowedNumbers = flowedNumbers;
-    }
 
     public String getFirstName() {
         return firstName;

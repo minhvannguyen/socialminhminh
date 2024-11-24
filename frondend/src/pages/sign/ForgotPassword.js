@@ -50,7 +50,7 @@ export default function ForgotPassword() {
           Bạn nhớ mật khẩu?
           <Link
             className="text-blue-600 decoration-2 hover:underline font-medium"
-            to="/login"
+            to="/"
           >
             Đăng nhập!
           </Link>

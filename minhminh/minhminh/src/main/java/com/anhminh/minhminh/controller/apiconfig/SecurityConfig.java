@@ -53,7 +53,7 @@ public class SecurityConfig {
                     return config;
                 }))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers( "/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**", "/login", "/users/*","/uploads/images/**").permitAll()
+                        .requestMatchers( "/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**", "/login", "/users","/uploads/images/**").permitAll()
                         .anyRequest().authenticated()
                 );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

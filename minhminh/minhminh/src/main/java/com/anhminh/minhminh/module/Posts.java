@@ -1,9 +1,6 @@
 package com.anhminh.minhminh.module;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -12,42 +9,20 @@ public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPost;
-    private Long idUser;
     private String content;
     private String imageUrl;
     private String date;
-    private int likeNumbers;
-    private int commentNumbers;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
-    public int getCommentNumbers() {
-        return commentNumbers;
-    }
 
-    public void setCommentNumbers(int commentNumbers) {
-        this.commentNumbers = commentNumbers;
-    }
-
-    public int getLikeNumbers() {
-        return likeNumbers;
-    }
-
-    public void setLikeNumbers(int likeNumbers) {
-        this.likeNumbers = likeNumbers;
-    }
     public Long getIdPost() {
         return idPost;
     }
 
     public void setIdPost(Long idPost) {
         this.idPost = idPost;
-    }
-
-    public Long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
     }
 
     public String getContent() {
@@ -72,6 +47,14 @@ public class Posts {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 }
 

@@ -90,7 +90,7 @@ const NavBar = () => {
             close={onclose}
             fileUrl={imageUrl}
           />
-          <Link to="/">
+          <Link to="/home">
               <FaHome className="w-5 h-5 text-gray-600 hover:text-blue-600 cursor-pointer" />
           </Link>
           

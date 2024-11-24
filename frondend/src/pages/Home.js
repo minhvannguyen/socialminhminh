@@ -32,7 +32,8 @@ export default function Home() {
                 imageUrl: post.imageUrl,
                 content: post.content,
                 date: post.date,
-                
+                avatar: post.avatar,
+                userName: post.userName
             }));
     
             // Cập nhật state với dữ liệu bài viết đã được format
