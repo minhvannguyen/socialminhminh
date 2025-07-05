@@ -6,7 +6,7 @@ import FollowingComponent from './FollowingComponent';
 export default function Follower({ IsOpenFollowed, Close}) {
 
   const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
+  const id = localStorage.getItem("idUser");
 
   const [followers, setFollowers] = useState([]);
 

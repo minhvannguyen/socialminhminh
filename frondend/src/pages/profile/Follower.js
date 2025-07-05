@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function Follower({ IsOpenFollower, Close}) {
 
   const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
+  const id = localStorage.getItem("idUser");
 
   const [followers, setFollowers] = useState([]);
 

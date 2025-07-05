@@ -45,8 +45,8 @@ public class Tymservice {
         else return ResponseEntity.ok("Tym này vốn dĩ đã trống!");
 
     }
-    public int numberTyms(Long id) {
-        List<Tyms> tyms = tymRepository.findAllByIdPost(id);
+    public int numberTyms(Long idUser) {
+        List<Tyms> tyms = tymRepository.findAllByIdPost(idUser);
         return tyms.size();
     }
     public boolean isTymService(TymDto tymDto) {

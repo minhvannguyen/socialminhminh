@@ -5,11 +5,12 @@ import Followed from './Followed';
 import UserPhotos from './UserPhotos';
 import NavBar from '../NavBar';
 import axios from 'axios';
-
+import { useAuth } from '../../AuthContext';
 export default function ProfilePage() {
 
-  const token = localStorage.getItem("token");
-  const idUser = localStorage.getItem("id");
+  const { token,  logout } = useAuth();
+
+  const idUser = localStorage.getItem("idUser");
 
   const location = useLocation();
   //logic cài đặt nhấn thả xuống
@@ -215,7 +216,7 @@ export default function ProfilePage() {
                     <Link
                       to="/"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      onClick={() => localStorage.clear()}
+                      onClick={logout}
                     >
                       Sign out
                     </Link>

@@ -19,7 +19,7 @@ public class PostDto {
         this.setDate(posts.getDate());
         this.setIdPost(posts.getIdPost());
         this.setAvatar(posts.getUser().getAvatar());
-        this.setUserName(posts.getUser().getUserName());
+        this.setUserName(posts.getUser().getName());
     }
 
     public Long getIdPost() {

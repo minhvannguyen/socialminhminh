@@ -60,8 +60,8 @@ public class CommentService {
                     CommentDto cmtdto = new CommentDto();
                     cmtdto.setIdComent(comment.getIdComent());
                     cmtdto.setContent(comment.getContent());
-                    cmtdto.setIdUser(user.getId());
-                    cmtdto.setUsername(user.getUserName());
+                    cmtdto.setIdUser(user.getIdUser());
+                    cmtdto.setUsername(user.getName());
                     cmtdto.setUserAvatar(user.getAvatar());
                     cmtdto.setIdPost(comment.getIdPost());
                     return cmtdto;

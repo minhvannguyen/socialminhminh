@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function Posts({postData}) {
 
   const token = localStorage.getItem("token");
-  const idUser = localStorage.getItem("id");
+  const idUser = localStorage.getItem("idUser");
 
   //logic comment
   const [isOpenCmt, setIsOpenCmt] = useState(false);

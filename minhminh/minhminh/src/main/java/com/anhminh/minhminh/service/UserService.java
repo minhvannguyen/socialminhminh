@@ -40,8 +40,8 @@ public class UserService {
         return user.map(userMap::toDto).orElseThrow(() -> new ResourceNotFoundException("id này ko tồn tại!"));
     }
 
-    public UserDto findByUserName(String userName) {
-        Optional<Users> user = userRepository.findByUserName(userName);
+    public UserDto findByUserName(String name) {
+        Optional<Users> user = userRepository.findByName(name);
         return user.map(userMap::toDto).orElseThrow(() -> new ResourceNotFoundException("ten này ko tồn tại!"));
     }
 
@@ -63,7 +63,7 @@ public class UserService {
     public void updateUser(UserDto userDto, Long id) {
         Optional<Users> user = userRepository.findById(id);
         if(user.isPresent()) {
-            userDto.setId(id);
+            userDto.setIdUser(id);
             userDto.setGmail(user.get().getGmail());
             userDto.setPassword(user.get().getPassword());
             Users users = userMap.toEntity(userDto);

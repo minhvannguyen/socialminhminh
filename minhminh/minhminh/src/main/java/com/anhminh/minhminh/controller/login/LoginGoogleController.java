@@ -60,7 +60,7 @@ public class LoginGoogleController {
                 // Tạo tài khoản mới cho người dùng
                 Users newUser = new Users();
                 newUser.setGmail(email);
-                newUser.setUserName(name);
+                newUser.setName(name);
                 // Thiết lập các thông tin bổ sung nếu cần
                 userRespository.save(newUser);
                 Users user = loginService.user(authResponse.getEmail());

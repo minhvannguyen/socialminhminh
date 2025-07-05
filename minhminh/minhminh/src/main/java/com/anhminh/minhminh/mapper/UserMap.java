@@ -11,11 +11,11 @@ public class UserMap {
         users.setAddress(userDto.getAddress());
         users.setAvatar(userDto.getAvatar());
         users.setBio(userDto.getBio());
-        users.setUserName(userDto.getUserName());
+        users.setName(userDto.getUserName());
         users.setPassword(userDto.getPassword());
         users.setGmail(userDto.getGmail());
         users.setDate(userDto.getDate());
-        users.setId(userDto.getId());
+        users.setIdUser(userDto.getIdUser());
         users.setIsSingle(userDto.getIsSingle());
 
         return users;
@@ -26,10 +26,10 @@ public class UserMap {
         userDto.setAddress(users.getAddress());
         userDto.setAvatar(users.getAvatar());
         userDto.setBio(users.getBio());
-        userDto.setUserName(users.getUserName());
+        userDto.setUserName(users.getName());
         userDto.setGmail(users.getGmail());
         userDto.setDate(users.getDate());
-        userDto.setId(users.getId());
+        userDto.setIdUser(users.getIdUser());
         userDto.setIsSingle(users.getIsSingle());
 
         return userDto;

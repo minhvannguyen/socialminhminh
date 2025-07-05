@@ -2,10 +2,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import axios from 'axios';
 import config from './config';
+import { useAuth } from '../../AuthContext';
 
 const clientId = config.CLIENT_ID;
 
 export default function Login() {
+
+  const { loginSocket } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const [authRequest, setAuthRequest] = useState({ gmail: '', password: '' });
   const [message, setMessage] = useState({});
@@ -28,10 +32,13 @@ export default function Login() {
       const response = await axios.post('http://localhost:8080/login', authRequest);
 
       if (response.status === 200) {
+
+        loginSocket(response.data.token);
+
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userName', response.data.userDto.userName);
         localStorage.setItem('avatar', response.data.userDto.avatar);
-        localStorage.setItem('id', response.data.userDto.id);
+        localStorage.setItem('idUser', response.data.userDto.idUser);
         localStorage.setItem('address', response.data.userDto.address);
         localStorage.setItem('bio', response.data.userDto.bio);
         localStorage.setItem('isSingle', response.data.userDto.isSingle);
@@ -60,12 +67,12 @@ export default function Login() {
       });
       // Lưu trữ thông tin người dùng hoặc token trong localStorage/sessionStorage
       localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userName', res.data.userDto.userName);
-        localStorage.setItem('avatar', res.data.userDto.avatar);
-        localStorage.setItem('id', res.data.userDto.id);
-        localStorage.setItem('address', res.data.userDto.address);
-        localStorage.setItem('bio', res.data.userDto.bio);
-        localStorage.setItem('isSingle', res.data.userDto.isSingle);
+      localStorage.setItem('userName', res.data.userDto.userName);
+      localStorage.setItem('avatar', res.data.userDto.avatar);
+      localStorage.setItem('idUser', res.data.userDto.idUser);
+      localStorage.setItem('address', res.data.userDto.address);
+      localStorage.setItem('bio', res.data.userDto.bio);
+      localStorage.setItem('isSingle', res.data.userDto.isSingle);
 
     } catch (error) {
       console.error('Error during login:', error);
@@ -104,7 +111,7 @@ export default function Login() {
             </div>
           </a>
           <div className="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[130px] lg:max-w-[450px]">
-            <p className="text-[32px] font-bold text-zinc-950 dark:text-white text-center">
+            <p className="text-[32px] font-bold text-zinc-950 dark:text-white backgrou text-center">
               Đăng Nhập
             </p>
 
@@ -214,11 +221,12 @@ c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.
                     </div>
                   </div>
                   <button
-                    className="whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 mt-2 flex h-[unset] w-full items-center justify-center rounded-lg px-4 py-4 text-sm font-medium"
+                    className="whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-500 text-white hover:bg-blue-600 mt-2 flex w-full items-center justify-center rounded-lg px-4 py-4 text-sm font-medium"
                     type="submit"
                   >
                     Đăng nhập
                   </button>
+
                 </div>
               </form>
               {message.errors && <p className='text-red-600'>{message.errors}</p>}

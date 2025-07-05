@@ -40,7 +40,7 @@ public class PostService {
     }
     public List<PostDto> allPost(Long idUser) {
         List<PostDto> postDtoList = new ArrayList<>();
-        List<Posts> postsList = postRepository.findByUser_Id(idUser); // Tìm tất cả bài đăng theo userId
+        List<Posts> postsList = postRepository.findByUser_IdUser(idUser); // Tìm tất cả bài đăng theo userId
 
         for (Posts posts : postsList) {
             PostDto postDto = postMap.toDto(posts);

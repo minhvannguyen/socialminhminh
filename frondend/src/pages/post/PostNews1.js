@@ -15,7 +15,7 @@ export default function PostNews1({imgfile, close, fileUrl }) {
   const formData = new FormData();  // Tạo một đối tượng FormData
     formData.append('imgfile', imgfile);
     formData.append("postDto", JSON.stringify(postData));
-    formData.append("idUser", localStorage.getItem("id"));
+    formData.append("idUser", localStorage.getItem("idUser"));
 
   useEffect(() => {
     if (fileUrl) {

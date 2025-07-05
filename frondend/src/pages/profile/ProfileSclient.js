@@ -4,15 +4,19 @@ import Follower from './Follower';
 import Followed from './Followed';
 import UserPhotos from './UserPhotos';
 import NavBar from '../NavBar';
-import MessegerChat from '../MessegerChat';
+import MessegerChat from '../message/MessegerChat';
 import axios from 'axios';
 
 export default function ProfileSclient() {
 
-  const token = localStorage.getItem("token");
-
   const location = useLocation();
   const { userClient } = location.state;
+
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem('idUser');
+  const clientId = userClient.idUser;
+
+
   //logic follower
   const [isOpenFollower, setIsOpenFollower] = useState(false);
   const openFollower = () => {
@@ -34,18 +38,14 @@ export default function ProfileSclient() {
     setIsOpenFollowed(false);
   };
   //kết thúc logic followed
-  // Lấy thông tin từ localStorage hoặc đặt giá trị mặc định
-  const [avatar, setAvatar] = useState(userClient?.avatar || "defaultAvatar.png");
-  const [userName, setUserName] = useState(userClient?.userName || "Guest");
 
   useEffect(() => {
     const fetchData = async () => {
-      setAvatar(userClient?.avatar || "defaultAvatar.png");
-      setUserName(userClient?.userName || "Guest");
+
 
       const followData = {
-        idFollower: localStorage.getItem("id"),
-        idFollowing: userClient.id,
+        idFollower: userId,
+        idFollowing: clientId,
       };
 
       try {
@@ -82,8 +82,8 @@ export default function ProfileSclient() {
   //logic theo dõi
   const [isFollow, setIsFollow] = useState(null);
   const userData = {
-    idFollower: localStorage.getItem('id'),
-    idFollowing: userClient.id,
+    idFollower: userId,
+    idFollowing: clientId,
   };
   const handleSubmitFollow = async () => {
     await axios.post("http://localhost:8080/follow", userData, {
@@ -113,7 +113,7 @@ export default function ProfileSclient() {
     } else {
       handleSubmitFollow();
     }
-    
+
   };
 
   //logic số lượng follower
@@ -123,7 +123,7 @@ export default function ProfileSclient() {
   // Hàm lấy số lượng người theo dõi từ API
   const fetchNumberFollower = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/follow/numberFollower/${userClient.id}`, {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollower/${clientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -134,11 +134,6 @@ export default function ProfileSclient() {
     }
   };
 
-  // Gọi API khi component được mount
-  useEffect(() => {
-    fetchNumberFollower();
-  }, [userClient.id, token]);
-
   //logic số lượng following
   // Trạng thái lưu số lượng người theo dõi
   const [numberFollowing, setNumberFollowing] = useState(0);
@@ -146,7 +141,7 @@ export default function ProfileSclient() {
   // Hàm lấy số lượng người theo dõi từ API
   const fetchNumberFollowing = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/follow/numberFollowed/${userClient.id}`, {
+      const response = await axios.get(`http://localhost:8080/follow/numberFollowed/${clientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -157,18 +152,40 @@ export default function ProfileSclient() {
     }
   };
 
+  // lấy về id cuộc hội thoại riêng
+  const [conversationId, setConversationId] = useState(null);
+  const handleSearch = async () => {
+    // Gửi request GET đến backend
+    const response = await axios.get("http://localhost:8080/searchConversation", {
+      params: { userId, clientId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Xử lý kết quả trả về
+    setConversationId(response.data); // Giả định backend trả về ID conversation
+  }
+
   // Gọi API khi component được mount
   useEffect(() => {
     fetchNumberFollowing();
-  }, [userClient.id, token]);
+    fetchNumberFollower();
+    handleSearch();
+  }, [clientId]);
+
 
   return (
     <div className="flex justify-center  items-center h-screen ">
-      <MessegerChat
-        isOpenChat={isOpenChat}
-        OpenChat={openChat}
-        CloseChat={closeChat}
-      />
+      {isOpenChat && (
+        <MessegerChat
+          isOpenChat={isOpenChat}
+          OpenChat={openChat}
+          CloseChat={closeChat}
+          userClient={userClient}
+          conversationId={conversationId}
+        />
+      )}
       <div className="w-full h-full lg:max-w-[450px] bg-transparent shadow-lg relative">
         <NavBar />
         <div className="max-w-2xl mx-auto">
@@ -176,10 +193,10 @@ export default function ProfileSclient() {
             <div className="flex flex-col gap-1 text-center">
               <img
                 className="block mt-5 mx-auto bg-center bg-no-repeat bg-cover w-20 h-20 rounded-full border border-gray-400 shadow-lg"
-                src={avatar}
+                src={userClient.avatar}
                 alt='anh dai dien'
               />
-              <p className="font-serif font-semibold">{userName}</p>
+              <p className="font-serif font-semibold">{userClient.userName}</p>
               <span className="text-sm text-gray-400">
                 {userClient.bio}
               </span>
@@ -201,7 +218,7 @@ export default function ProfileSclient() {
                 IsOpenFollower={isOpenFollower}
                 Open={openFollower}
                 Close={closeFollower}
-                
+
               />
               <button className="font-semibold text-center mx-4" onClick={openFollowed}>
                 <p className="text-black">{numberFollowing}</p>
@@ -263,7 +280,7 @@ export default function ProfileSclient() {
               </button>
             </div>
             <div className="">
-              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={userClient.id} numberPost={getNumberPost} />
+              <UserPhotos className="grid grid-cols-3 gap-2 my-3" idUser={userClient.idUser} numberPost={getNumberPost} />
             </div>
           </div>
 

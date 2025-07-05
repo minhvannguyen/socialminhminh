@@ -13,7 +13,7 @@ public class Posts {
     private String imageUrl;
     private String date;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_idUser", nullable = false)
     private Users user;
 
 

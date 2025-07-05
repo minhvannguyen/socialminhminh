@@ -37,6 +37,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public JwtDecoder jwtDecoderToken() {
+        // Tạo SecretKeySpec từ khóa bí mật (sử dụng mã hóa UTF-8)
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+
+        // Cấu hình NimbusJwtDecoder với khóa bí mật và thuật toán HS256
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF cho REST API
@@ -53,23 +64,15 @@ public class SecurityConfig {
                     return config;
                 }))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers( "/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**", "/login", "/users","/uploads/images/**").permitAll()
+                        .requestMatchers( "/chat/**","/resetPassword", "/verifyOtp", "/forgotPassword", "/oauth2/**",
+                                "/login", "/users","/uploads/images/**").permitAll()
                         .anyRequest().authenticated()
                 );
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-    @Bean
-    public JwtDecoder jwtDecoderToken() {
-        // Tạo SecretKeySpec từ khóa bí mật (sử dụng mã hóa UTF-8)
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 
-        // Cấu hình NimbusJwtDecoder với khóa bí mật và thuật toán HS256
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS256)
-                .build();
-    }
 }
 
 

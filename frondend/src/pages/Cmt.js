@@ -11,7 +11,7 @@ export default function Cmt({ isOpen, Close, idPost }) {
 
   //logic up bình luận
   const [cmtData, setCmtData] = useState({
-    idUser: localStorage.getItem("id"),
+    idUser: localStorage.getItem("idUser"),
     idPost: idPost,
     content: '',
   })

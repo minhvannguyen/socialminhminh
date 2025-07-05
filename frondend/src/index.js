@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SocketProvider } from './SocketProvider';
+import { AuthProvider } from './AuthContext';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <AuthProvider> {/* ✅ Bọc ở ngoài để cung cấp token cho SocketProvider */}
+    <SocketProvider>
+      <App />
+    </SocketProvider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

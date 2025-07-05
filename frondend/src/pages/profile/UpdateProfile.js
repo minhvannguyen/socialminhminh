@@ -10,7 +10,7 @@ export default function UpdateProfile() {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar"));
   const [message, setMessage] = useState({});
   const [postData, setPostData] = useState({
-    id: localStorage.getItem("id"),
+    idUser: localStorage.getItem("idUser"),
     userName: localStorage.getItem("userName"),
     bio: localStorage.getItem("bio"),
     address: localStorage.getItem("address"),
@@ -40,7 +40,7 @@ export default function UpdateProfile() {
     setImgTemp("");
     setMessage({});
     try {
-      const response = await axios.put(`http://localhost:8080/users/update/${postData.id}`, formData, {
+      const response = await axios.put(`http://localhost:8080/users/update/${postData.idUser}`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',  // Đảm bảo header là multipart

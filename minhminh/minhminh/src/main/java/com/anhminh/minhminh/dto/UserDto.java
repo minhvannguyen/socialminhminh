@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UserDto {
-    private Long id;
+    private Long idUser;
 
     @NotBlank(message = "Tên không được để trống.", groups = {OnRegister.class, OnUpdate.class})
     @Size(min = 3, max = 20, message = "Tên nên có từ 3 -20 ký tự", groups = {OnRegister.class, OnUpdate.class})
@@ -46,12 +46,12 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getUserName() {

@@ -29,7 +29,9 @@ export default function Search({ isOpen }) {
               navigate('/profileClient', {
                 state: {
                   userClient: response.data,
-                }
+                  
+                },
+                replace: true,
               });
               
             

@@ -4,8 +4,8 @@ import PostNews from './post/PostNews';
 import PostNews1 from './post/PostNews1';
 import { Link } from 'react-router-dom';
 import Notification from './Notification';
-import Messeger from './Messeger';
 import Search from './Search';
+import Messeger from './message/Messeger';
 
 const NavBar = () => {
 //logic tạo bài đăng mới
